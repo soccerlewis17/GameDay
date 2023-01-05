@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
+from .models import Favorite, Comment
 
 # Create your views here.
 
@@ -9,10 +9,10 @@ def home(request):
     return render(request, 'home.html')
 
 def team_detail(request):
-    return HttpResponse('<h1>Team Detail</h1>')
+    return render(request, 'team.html')
 
 def game_detail(request):
-    return HttpResponse('<h1>Game Detail</h1>')
+    return render(request, 'game.html')
 
 
 def signup(request):
