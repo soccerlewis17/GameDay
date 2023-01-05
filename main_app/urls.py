@@ -10,3 +10,4 @@ urlpatterns = [
     path('game/', views.game_detail, name= 'game_detail'),
 ]     
 
+# this is the auth branch 
