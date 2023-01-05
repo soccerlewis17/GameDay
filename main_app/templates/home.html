@@ -7,4 +7,34 @@
 <p>Home page</p>
 
 
+{% if user.is_authenticated %}
+<h3>Favorites</h3>
+
+{% for favorite in favorites %}
+    {% for team in teams %}
+        {% if favorite == team.team.id %}
+        <a href=" {% url 'team_detail' team.team.id %} ">{{ team.team.name }}</a>
+        {% endif %}
+    {% endfor %}
+{% endfor %}
+    
+<h3>Add teams</h3>
+<ul>
+    {% for team in teams %}
+   
+            {% if team.team.id in favorites %}
+               
+                {% else %}
+                <li>{{ team.team.name }}</li>
+                <form action=" {% url 'favorite_team' team.team.id %} " method="post">
+                    {% csrf_token %}
+                    <input type="submit" value="Add Team">
+                </form>
+            {% endif %} 
+    {% endfor %}
+</ul>
+{% else %}
+<p>You're not logged, log in to add teams</p>
+{% endif %}
+
 {% endblock content %}

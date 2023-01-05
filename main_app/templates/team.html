@@ -2,6 +2,18 @@
 
 
 {% block content %}
-    <h1>team page</h1>
+    <h1>Team page</h1>
+    <image src="{{ team.team.logo }}"></image>
+    <h1>{{ team.team.name }}</h1>
+<form action=" {% url 'remove_team' team.team.id %} " method="post">
+    {% csrf_token %}
+    <input type="submit" value="Remove Favorite">
+</form>
+
+<p>Founded: {{ team.team.founded }}</p>
+<p>Home Field: {{ team.venue.name }}</p>
+<p>Capacity: {{ team.venue.capacity }}</p>
+<image src=" {{ team.venue.image }} "></image>
+
 {% endblock content %}
     

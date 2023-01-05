@@ -5,7 +5,7 @@ from django.urls import reverse
 # Create your models here.
 
 class Favorite(models.Model): 
-    team_id = models.CharField(max_length=5)
+    team_id = models.IntegerField()
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def get_absolute_url(self): 
@@ -18,6 +18,6 @@ class Favorite(models.Model):
 class Comment(models.Model): 
     created_on = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    game_id = models.CharField(max_length=15)
+    game_id = models.IntegerField()
     comment_text = models.TextField(max_length=150)
     
