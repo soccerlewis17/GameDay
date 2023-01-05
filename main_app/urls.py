@@ -8,6 +8,7 @@ urlpatterns = [
     path('team/', views.team_detail, name= 'team_detail'),
     #game 
     path('game/', views.game_detail, name= 'game_detail'),
-]     
 
-# this is the auth branch 
+    #signup 
+    path('accounts/signup/', views.signup, name='signup'),
+]     
