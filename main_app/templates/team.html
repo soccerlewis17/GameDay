@@ -5,7 +5,7 @@
     <div class="container-fluid text-center">
         <div class="d-flex justify-content-center"><image class="py-4" src="{{ team.team.logo }}"></image></div>
         
-        <h2 class="text-light px-3 background-red">{{ team.team.name }}</h2>
+        <h1 class="text-light px-3 background-red">{{ team.team.name }}</h1>
     </div>
 
 
@@ -15,34 +15,38 @@
     
 
 
-<form action=" {% url 'remove_team' team.team.id %} " method="post">
+<form class="text-end m-3" action=" {% url 'remove_team' team.team.id %} " method="post">
     {% csrf_token %}
-    <input type="submit" value="Remove Favorite">
+    <input class="bg-secondary" type="submit" value="Remove Favorite">
 </form>
 
+<h2 class="background-green text-light text-center m-3 p-1">Upcoming Games</h2>
+        {% for game in upcoming %}
+            <p>{{ game.fixture.timestamp|date:"D, F j" }} at {{ game.fixture.timestamp|time:"f A T" }}</p>
+            <p>{{ game.teams.home.name }} @ {{ game.teams.away.name }}</p>
+            <a href=" {% url 'game_detail' game.fixture.id %} ">View Game</a>
+            <br>
+            <br>
+            <br>
+        {% endfor %}
+
+<h2 class="background-green text-light text-center m-3 p-1">About {{ team.team.name }}</h2>
 <p>Founded: {{ team.team.founded }}</p>
 <p>Home Field: {{ team.venue.name }}</p>
 <p>Capacity: {{ team.venue.capacity }}</p>
 <image src=" {{ team.venue.image }} "></image>
 
-
-<h2>Upcoming Games:</h2>
-
-{% for game in upcoming %}
-    <p>{{ game.fixture.timestamp|date:"D, F j" }} at {{ game.fixture.timestamp|time:"f A T" }}</p>
-    <p>{{ game.teams.home.name }} @ {{ game.teams.away.name }}</p>
-    <a href=" {% url 'game_detail' game.fixture.id %} ">View Game</a>
-    <br>
-    <br>
-    <br>
-{% endfor %}
-    <h1>Squad:</h1>
-    {% for player in squad.players %}
-        <p>No. {{ player.number }} {{ player.name }}</p>
-        <p>{{ player.position }}</p><image src=" {{ player.photo }} "></image>
-        <br>
-        <br>
-
-    {% endfor %}
+<h2 class="background-green text-light text-center m-3 p-1">Meet the Squad</h2>
+<div class="container">
+    <div class="row">
+        {% for player in squad.players %}
+        <div class="col container text-center background-red m-2">
+            <image class="py-2" src=" {{ player.photo }} "></image>
+            <p class="row justify-content-center text-light">#{{ player.number }} {{ player.name }}</p>
+            <p class="row justify-content-center text-light">{{ player.position }}</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
 {% endblock content %}
     
