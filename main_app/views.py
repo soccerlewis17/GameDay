@@ -3,6 +3,7 @@ from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 from .models import Favorite, Comment
 from django.contrib.auth.decorators import login_required
+from datetime import datetime
 
 import requests # allow us to make api calls
 headers = {
@@ -29,11 +30,31 @@ def team_detail(request, team_id):
     url = "https://api-football-v1.p.rapidapi.com/v3/teams"
     querystring = {"id": team_id}
     team = requests.request(
-        "GET", url, headers=headers, params=querystring).json()
-    return render(request, 'team.html', {'team' : team['response'][0]})
+        "GET", url, headers=headers, params=querystring).json()['response'][0]
+    url = "https://api-football-v1.p.rapidapi.com/v3/fixtures"
+    querystring = {"team": team_id,"next": "3"}
+    upcoming_games = requests.request(
+        "GET", url, headers=headers, params=querystring).json()['response']
+    #change timestamps to usable times
+    for game in upcoming_games: 
+      game['fixture']['timestamp'] = datetime.fromtimestamp(
+          game['fixture']['timestamp'])
+    url = "https://api-football-v1.p.rapidapi.com/v3/players/squads"
+    querystring = {"team": team_id}
+    squad = requests.request("GET", url, headers=headers, params=querystring).json()['response'][0]
+    return render(request, 'team.html', {'team' : team, 'upcoming' : upcoming_games, 'squad' : squad})
 
-def game_detail(request):
-    return render(request, 'game.html')
+def game_detail(request, game_id):
+    url = "https://api-football-v1.p.rapidapi.com/v3/fixtures"
+    querystring = {"id": game_id}
+    game = requests.request(
+        "GET", url, headers=headers, params=querystring).json()['response'][0]
+    game['fixture']['timestamp'] = datetime.fromtimestamp(
+        game['fixture']['timestamp'])
+    querystring = {"live": "all", "ids": game_id}
+    live_game = requests.request("GET", url, headers=headers, params=querystring).json()['response']
+    
+    return render(request, 'game.html', {'game' : game, 'live' : live_game})
 
 
 def signup(request):

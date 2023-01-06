@@ -5,7 +5,7 @@ urlpatterns = [
     
     path('', views.home, name= 'home'),
     #game 
-    path('game/', views.game_detail, name= 'game_detail'),
+    path('game/<int:game_id>/', views.game_detail, name= 'game_detail'),
     #signup 
     path('accounts/signup/', views.signup, name='signup'),
     # team

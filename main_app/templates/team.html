@@ -15,5 +15,24 @@
 <p>Capacity: {{ team.venue.capacity }}</p>
 <image src=" {{ team.venue.image }} "></image>
 
+
+<h2>Upcoming Games:</h2>
+
+{% for game in upcoming %}
+    <p>{{ game.fixture.timestamp|date:"D, F j" }} at {{ game.fixture.timestamp|time:"f A T" }}</p>
+    <p>{{ game.teams.home.name }} @ {{ game.teams.away.name }}</p>
+    <a href=" {% url 'game_detail' game.fixture.id %} ">View Game</a>
+    <br>
+    <br>
+    <br>
+{% endfor %}
+    <h1>Squad:</h1>
+    {% for player in squad.players %}
+        <p>No. {{ player.number }} {{ player.name }}</p>
+        <p>{{ player.position }}</p><image src=" {{ player.photo }} "></image>
+        <br>
+        <br>
+
+    {% endfor %}
 {% endblock content %}
     

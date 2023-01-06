@@ -3,4 +3,14 @@
 
 {% block content %}
 <h1>game page</h1>
+
+{% if live %}
+    <p>This game is Live! follow here:</p>
+{% endif %}
+
+<p><image src="{{ game.teams.home.logo }}"></image> vs. <image src="{{ game.teams.away.logo }}"></image></p>
+<p>{{ game.fixture.venue.name }}</p>
+<p>{{ game.fixture.timestamp|date:"D, F j" }} at {{ game.fixture.timestamp|time:"f A T" }}</p>
+<p>Referee: {{ game.fixture.referee }}</p>
+<p>Competition: {{ game.league.name }} <image src="{{ game.league.logo }}"></image></p>
 {% endblock content %}
