@@ -22,6 +22,7 @@ def home(request):
     favorites = Favorite.objects.filter(user= request.user)
     for favorite in favorites:
       favorite_ids.append(favorite.team_id)
+  
   return render(request, 'home.html', {'teams' : teams, 'favorites' : favorite_ids})
 
 
@@ -42,7 +43,11 @@ def team_detail(request, team_id):
     url = "https://api-football-v1.p.rapidapi.com/v3/players/squads"
     querystring = {"team": team_id}
     squad = requests.request("GET", url, headers=headers, params=querystring).json()['response'][0]
-    return render(request, 'team.html', {'team' : team, 'upcoming' : upcoming_games, 'squad' : squad})
+    url = "https://api-football-v1.p.rapidapi.com/v3/fixtures"
+    querystring = {"live": "all", "team" : team_id}
+    live_game = requests.request(
+        "GET", url, headers=headers, params=querystring).json()['response']
+    return render(request, 'team.html', {'team' : team, 'upcoming' : upcoming_games, 'squad' : squad, 'live' : live_game})
 
 def game_detail(request, game_id):
     url = "https://api-football-v1.p.rapidapi.com/v3/fixtures"
@@ -51,10 +56,11 @@ def game_detail(request, game_id):
         "GET", url, headers=headers, params=querystring).json()['response'][0]
     game['fixture']['timestamp'] = datetime.fromtimestamp(
         game['fixture']['timestamp'])
-    querystring = {"live": "all", "ids": game_id}
-    live_game = requests.request("GET", url, headers=headers, params=querystring).json()['response']
-    
-    return render(request, 'game.html', {'game' : game, 'live' : live_game})
+    url = "https://api-football-v1.p.rapidapi.com/v3/fixtures/statistics"
+    querystring = {"fixture": game_id}
+    live_stats = requests.request(
+        "GET", url, headers=headers, params=querystring).json()['response']
+    return render(request, 'game.html', {'game' : game, 'stats' : live_stats})
 
 
 def signup(request):

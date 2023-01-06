@@ -1,2 +1,25 @@
 /* logo with text https://i.imgur.com/bQIOr4Y.png
 logo without text https://i.imgur.com/9R5zbN5.png */
+
+.color-red { 
+    color: #A05F75;
+}
+.background-red { 
+    background-color: #A05F75;
+}
+.color-green { 
+    color: #5FA08A;
+}
+.background-green { 
+    background-color: #5FA08A;
+}
+.background-grey { 
+    background-color: #d3d3d3;
+}
+.fa-star { 
+    color: #A05F75;
+}
+
+.m-n1 {
+    margin: -60px -60px !important;
+}

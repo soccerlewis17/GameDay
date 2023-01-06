@@ -4,13 +4,56 @@
 {% block content %}
 <h1>game page</h1>
 
-{% if live %}
-    <p>This game is Live! follow here:</p>
-{% endif %}
-
 <p><image src="{{ game.teams.home.logo }}"></image> vs. <image src="{{ game.teams.away.logo }}"></image></p>
 <p>{{ game.fixture.venue.name }}</p>
 <p>{{ game.fixture.timestamp|date:"D, F j" }} at {{ game.fixture.timestamp|time:"f A T" }}</p>
 <p>Referee: {{ game.fixture.referee }}</p>
 <p>Competition: {{ game.league.name }} <image src="{{ game.league.logo }}"></image></p>
+
+
+{% if game.lineups %}
+<p>{{ game.fixture.status.long }}: {{ game.fixture.status.elapsed }}</p>
+<p>Home: {{ game.goals.home }} Away: {{ game.goals.away }}</p>
+<h4>Game events:</h4>
+<ul>
+    
+    {% for event in game.events %}
+        <li>{{ event.time.elapsed }} - {{ event.team.name }}: {{ event.type }}, {{ event.player.name }}
+            {% if event.comments == None %}
+                {% else %}
+                : {{ event.detail }}
+            {% endif %}   
+        </li>
+    {% endfor %}
+        
+</ul>
+<h3>Lineups</h3>
+
+{% for lineup in game.lineups %}
+    <h5>{{ lineup.team.name }}</h5>
+    <p>Formation: {{ lineup.formation }}</p>
+    <ul>
+        <h6>Players:</h6>
+            
+            {% for player in lineup.startXI %}
+            <p>{{ player.player.pos }} No.{{ player.player.number }} : {{ player.player.name }}</p>
+            {% endfor %}
+            <p>Coach: {{ lineup.coach.name }}</p>
+    </ul>
+{% endfor %}
+    <h2>Stats!!</h2>
+    {% for team in game.statistics %}
+        <p>{{ team.team.name }}: {{ team.statistics }}</p>
+    {% endfor %}
+
+{% for team in game.players %}
+    
+    {% for player in team.players %}
+        <p>{{ player.player.name }}</p>
+        <p>{{ player.statistics.0.keys }}</p>
+    {% endfor %}
+        
+{% endfor %}
+       
+{% endif %}
 {% endblock content %}

@@ -2,9 +2,19 @@
 
 
 {% block content %}
-    <h1>Team page</h1>
-    <image src="{{ team.team.logo }}"></image>
-    <h1>{{ team.team.name }}</h1>
+    <div class="container-fluid text-center">
+        <div class="d-flex justify-content-center"><image class="py-4" src="{{ team.team.logo }}"></image></div>
+        
+        <h2 class="text-light px-3 background-red">{{ team.team.name }}</h2>
+    </div>
+
+
+{% if live %}
+    <p>{{ team.team.name }} is Live!</p><a href=" {% url 'game_detail' live.0.fixture.id%} ">Follow the game</a>
+{% endif %}
+    
+
+
 <form action=" {% url 'remove_team' team.team.id %} " method="post">
     {% csrf_token %}
     <input type="submit" value="Remove Favorite">
