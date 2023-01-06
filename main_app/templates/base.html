@@ -10,6 +10,7 @@
         integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <title>GameDay</title>
+    <link rel="icon" type="image/x-icon" href="https://i.imgur.com/9R5zbN5.png">
 </head>
 
 <body>
@@ -17,19 +18,29 @@
         integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
         crossorigin="anonymous"></script>
 
-    <ul>
-        <li><a href=" {% url 'home' %} ">Home</a></li>
-        {% if user.is_authenticated %}
-        <li><a href=" {% url 'logout' %} ">Log Out</a></li>
-        {% else %}
-        <li><a href="{% url 'login' %}">Log In</a></li>
-        <li><a href="{% url 'signup' %}">Sign Up</a></li>
-        {% endif %}
-    </ul>
+        <nav class="navbar navbar-dark px-4 bg-light">
+            <a class="navbar-brand" href="#">
+              <img src="https://i.imgur.com/9R5zbN5.png" width="40" height="40" class="d-inline-block align-top" alt="">
+            </a>
+            <ul class="row list-unstyled mr-auto">
+                <li class="col-3 navbar-brand mb-0 h1"><a class="nav-link active" style="color: #A05F75;" href=" {% url 'home' %} ">Home</a></li>
+                {% if user.is_authenticated %}
+                <li class="col-3 navbar-brand mb-0 h1"><a class="nav-link active" style="color: #A05F75;" href=" {% url 'logout' %} ">Log Out</a></li>
+                {% else %}
+                <li class="col-3 navbar-brand mb-0 h1"><a class="nav-link active" style="color: #A05F75;" href="{% url 'login' %}">Log In</a></li>
+                <li class="col-3 navbar-brand mb-0 h1"><a class="nav-link active" style="color: #A05F75;" href="{% url 'signup' %}">Sign Up</a></li>
+                {% endif %}
+            </ul>
+        </nav>
 
     {% block content %}
 
     {% endblock %}
+
 </body>
 
+<footer class="text-center py-2">
+    <img src="https://i.imgur.com/9R5zbN5.png" width="40" height="40" class="d-inline-block align-top" alt="">
+
+</footer>
 </html>
