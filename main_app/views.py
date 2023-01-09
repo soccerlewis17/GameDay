@@ -2,7 +2,9 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 from .models import Favorite, Comment
+from django.views.generic.edit import DeleteView
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from datetime import datetime
 from .forms import CommentForm
 
@@ -151,3 +153,12 @@ def add_comment(request, game_id):
         new_comment.user = request.user
         new_comment.save()
     return redirect('game_detail', game_id=game_id)
+
+
+@login_required 
+def remove_comment(request, comment_id): 
+  comment = Comment.objects.filter(id=comment_id)
+  game_id = comment[0].game_id
+  comment.delete()
+  return redirect('game_detail', game_id=game_id)
+    

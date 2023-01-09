@@ -4,6 +4,6 @@ from .models import Favorite, Comment
 class CommentForm(ModelForm):
 	# meta class, this instructions for the class
 	class Meta:
-		model = Comment
+		model = Comment 
 		fields = ['comment_text']
 

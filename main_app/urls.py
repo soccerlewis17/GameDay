@@ -15,4 +15,5 @@ urlpatterns = [
     # delete team from favorites
     path('favorite/delete/<int:team_id>/', views.remove_team, name='remove_team'),
     path('game/<int:game_id>/add_comment/', views.add_comment, name='add_comment'),
+    path('comments/<int:comment_id>/delete', views.remove_comment, name='remove_comment')
 ]     
