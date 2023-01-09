@@ -84,9 +84,12 @@ def home(request):
         favorites = Favorite.objects.filter(user=request.user)
         for favorite in favorites:
             favorite_ids.append(favorite.team_id)
+            game_obj = {}
             game = get_games(favorite.team_id, 1)[0]
             fix_timestamp(game)
-            favorite_games.append(game)
+            game_obj["id"] = favorite.team_id
+            game_obj["game"] = game
+            favorite_games.append(game_obj)
     return render(request, 'home.html', {'teams': teams, 'favorites': favorite_ids, 'games': favorite_games})
 
 
