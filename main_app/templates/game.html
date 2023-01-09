@@ -23,124 +23,151 @@
         <image src="{{ game.teams.away.logo }}" class="img-fluid"></image>
     </div>
 </div>
-<div class="row justify-content-center">
-    <div class="col-9 col-sm-5 my-2">
-        <h5 class="text-center">{{ game.teams.home.name }}</h5>
-        <div style="height:20vh;overflow:scroll;">
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th scope="col">Min</th>
-                        <th scope="col">Player</th>
-                        <th scope="col"></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for event in game.events %}
-                    {% if event.team.name == game.teams.home.name %}
-                    <tr>
-                        <td>{{ event.time.elapsed }}'</td>
-                        <td>{{ event.player.name }}</td>
-                        <td>
-                            {% if event.comments == None %}
-                            {{ event.type }}</td>
-                        {% else %}
-                        {{ event.detail }}</td>
-                        {% endif %}
-                        {% endif %}
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-    </div>
-    <div class="col-9 col-sm-5 my-2">
-        <h5 class="text-center">{{ game.teams.away.name }}</h5>
-        <div style="height:20vh;overflow:scroll;">
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th scope="col">Min</th>
-                        <th scope="col">Player</th>
-                        <th scope="col"></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for event in game.events %}
-                    {% if event.team.name == game.teams.away.name %}
-                    <tr>
-                        <td>{{ event.time.elapsed }}'</td>
-                        <td>{{ event.player.name }}</td>
-                        <td>
-                            {% if event.comments == None %}
-                            {{ event.type }}</td>
-                        {% else %}
-                        {{ event.detail }}</td>
-                        {% endif %}
-                        {% endif %}
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-    </div>
-</div>
-<div class="row my-2 justify-content-center">
-    <div class="col-sm-6">
-        <h3 class="text-center">Lineups</h3>
-        <ul class="d-flex justify-content-center nav nav-pills mb-3" id="pills-tab" role="tablist">
-            <li class="nav-item" role="presentation">
-                <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home"
-                    type="button" role="tab" aria-controls="pills-home" aria-selected="true">Home</button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link" id="pills-away-tab" data-bs-toggle="pill" data-bs-target="#pills-away"
-                    type="button" role="tab" aria-controls="pills-away" aria-selected="false">Away</button>
-            </li>
-        </ul>
-        <div class="tab-content" id="pills-tabContent">
-            <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
-                <h5>{{ game.lineups.0.team.name }}</h5>
-                <p>Formation: {{ game.lineups.0.formation }}</p>
-                <h6>Players:</h6>
-                <ul class="list-group list-group-unstyled">
-                    {% for player in game.lineups.0.startXI %}
-                    <li class="list-group-item list-group-item-secondary"><span class="badge bg-primary rounded-pill">{{ player.player.pos }}</span>  <span class="fw-light">{{ player.player.number }}</span> <span class="fw-bold">{{player.player.name }}</span></li>
-                    {% endfor %}
-                </ul>
-                <p>Coach: {{ game.lineups.0.coach.name }}</p>
+<ul class="d-flex justify-content-center nav nav-pills mb-3" id="pills-tab" role="tablist">
+    <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="pills-events-tab" data-bs-toggle="pill" data-bs-target="#pills-events"
+            type="button" role="tab" aria-controls="pills-events" aria-selected="true">Events</button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link" id="pills-lineups-tab" data-bs-toggle="pill" data-bs-target="#pills-lineups"
+            type="button" role="tab" aria-controls="pills-lineups" aria-selected="false">Lineups</button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link" id="pills-stats-tab" data-bs-toggle="pill" data-bs-target="#pills-stats" type="button"
+            role="tab" aria-controls="pills-stats" aria-selected="false">Stats</button>
+    </li>
+</ul>
+<div class="tab-content" id="pills-tabContent">
+    <div class="tab-pane fade show active" id="pills-events" role="tabpanel" aria-labelledby="pills-events-tab">
+        <div class="row justify-content-center">
+            <div class="col-9 col-sm-5 my-2">
+                <h5 class="text-center">{{ game.teams.home.name }}</h5>
+                <div style="height:20vh;overflow:scroll;">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th scope="col">Min</th>
+                                <th scope="col">Player</th>
+                                <th scope="col"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for event in game.events %}
+                            {% if event.team.name == game.teams.home.name %}
+                            <tr>
+                                <td>{{ event.time.elapsed }}'</td>
+                                <td>{{ event.player.name }}</td>
+                                <td>
+                                    {% if event.comments == None %}
+                                    {{ event.type }}</td>
+                                {% else %}
+                                {{ event.detail }}</td>
+                                {% endif %}
+                                {% endif %}
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
             </div>
-            <div class="tab-pane fade" id="pills-away" role="tabpanel" aria-labelledby="pills-away-tab">
-                <h5>{{ game.lineups.1.team.name }}</h5>
-                <p>Formation: {{ game.lineups.1.formation }}</p>
-                <h6>Players:</h6>
-                <ul class="list-group list-group-unstyled">
-                    {% for player in game.lineups.1.startXI %}
-                    <li class="list-group-item list-group-item-secondary"><span class="badge bg-primary rounded-pill">{{player.player.pos }}</span> <span class="fw-light">{{ player.player.number }}</span> <span
-                            class="fw-bold">{{player.player.name }}</span></li>
-                    {% endfor %}
-                </ul>
-                <p>Coach: {{ game.lineups.1.coach.name }}</p>
+            <div class="col-9 col-sm-5 my-2">
+                <h5 class="text-center">{{ game.teams.away.name }}</h5>
+                <div style="height:20vh;overflow:scroll;">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th scope="col">Min</th>
+                                <th scope="col">Player</th>
+                                <th scope="col"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for event in game.events %}
+                            {% if event.team.name == game.teams.away.name %}
+                            <tr>
+                                <td>{{ event.time.elapsed }}'</td>
+                                <td>{{ event.player.name }}</td>
+                                <td>
+                                    {% if event.comments == None %}
+                                    {{ event.type }}</td>
+                                {% else %}
+                                {{ event.detail }}</td>
+                                {% endif %}
+                                {% endif %}
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
+    <div class="tab-pane fade" id="pills-lineups" role="tabpanel" aria-labelledby="pills-lineups-tab">
+        <div class="row my-2 justify-content-center">
+            <div class="col-sm-6">
+                <h3 class="text-center">Lineups</h3>
+                <ul class="d-flex justify-content-center nav nav-pills mb-3" id="pills-tab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill"
+                            data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home"
+                            aria-selected="true">Home</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="pills-away-tab" data-bs-toggle="pill" data-bs-target="#pills-away"
+                            type="button" role="tab" aria-controls="pills-away" aria-selected="false">Away</button>
+                    </li>
+                </ul>
+                <div class="tab-content" id="pills-tabContent">
+                    <div class="tab-pane fade show active" id="pills-home" role="tabpanel"
+                        aria-labelledby="pills-home-tab">
+                        <h5>{{ game.lineups.0.team.name }}</h5>
+                        <p>Formation: {{ game.lineups.0.formation }}</p>
+                        <h6>Players:</h6>
+                        <ul class="list-group list-group-unstyled">
+                            {% for player in game.lineups.0.startXI %}
+                            <li class="list-group-item list-group-item-secondary"><span
+                                    class="badge bg-primary rounded-pill">{{player.player.pos }}</span> <span
+                                    class="fw-light">{{ player.player.number }}</span> <span
+                                    class="fw-bold">{{player.player.name }}</span></li>
+                            {% endfor %}
+                        </ul>
+                        <p>Coach: {{ game.lineups.0.coach.name }}</p>
+                    </div>
+                    <div class="tab-pane fade" id="pills-away" role="tabpanel" aria-labelledby="pills-away-tab">
+                        <h5>{{ game.lineups.1.team.name }}</h5>
+                        <p>Formation: {{ game.lineups.1.formation }}</p>
+                        <h6>Players:</h6>
+                        <ul class="list-group list-group-unstyled">
+                            {% for player in game.lineups.1.startXI %}
+                            <li class="list-group-item list-group-item-secondary"><span
+                                    class="badge bg-primary rounded-pill">{{player.player.pos }}</span> <span
+                                    class="fw-light">{{ player.player.number }}</span> <span
+                                    class="fw-bold">{{player.player.name }}</span></li>
+                            {% endfor %}
+                        </ul>
+                        <p>Coach: {{ game.lineups.1.coach.name }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="tab-pane fade" id="pills-stats" role="tabpanel" aria-labelledby="pills-stats-tab">
+        <h2>Stats!!</h2>
+        {% for team in game.statistics %}
+        <p>{{ team.team.name }}: {{ team.statistics }}</p>
+        {% endfor %}
+
+        {% for team in game.players %}
+
+        {% for player in team.players %}
+        <p>{{ player.player.name }}</p>
+        <p>{{ player.statistics.0.keys }}</p>
+        {% endfor %}
+
+        {% endfor %}
+    </div>
 </div>
-
-
-
-<h2>Stats!!</h2>
-{% for team in game.statistics %}
-<p>{{ team.team.name }}: {{ team.statistics }}</p>
-{% endfor %}
-
-{% for team in game.players %}
-
-{% for player in team.players %}
-<p>{{ player.player.name }}</p>
-<p>{{ player.statistics.0.keys }}</p>
-{% endfor %}
-
-{% endfor %}
 {% else %}
 <div class="container text-center" id="game info">
     <div class="row d-flex justify-content-center">
@@ -173,20 +200,44 @@
     <div class="row justify-content-center">
         <p>Referee: {{ game.fixture.referee }}</p>
     </div>
-{% endif %} 
+    {% endif %}
+    <div class="row d-flex justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-0 border" style="background-color: #f0f2f5;">
+                <div class="card-body p-4">
+                    <div class="form-outline mb-4">
+                        <form action="{% url 'add_comment' game.fixture.id %}" method="POST">
+                            {% csrf_token %}
+                            {{ comment_form.as_p }}
+                            <input type="submit" class="btn" value="Add Comment">
+                        </form>
+                    </div>
+                    {% for comment in comments %}
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <p>{{ comment.comment_text }}</p>
+                            <div class="d-flex justify-content-between">
+                                <div class="d-flex flex-row align-items-center">
+                                    <p class="small mb-0 ms-2">{{ comment.user }}: {{ comment.created_on }}</p>
+                                </div>
+                                {% if comment.user == user %}
+                                <div class="d-flex flex-row align-items-center">
+                                    <form action="{% url 'remove_comment' comment.id %}" method="POST">
+                                        {% csrf_token %}
+                                        <input type="submit" value="Delete!" class="btn">
+                                    </form>
+                                </div>
+                                {% endif %}
 
-<form action="{% url 'add_comment' game.fixture.id %}" method="POST">
-    {% csrf_token %}
-    {{ comment_form.as_p }}
-    <input type="submit" class="btn" value="Add Comment">
-</form>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
 
 
-{% for comment in comments  %}
-<ul>
-    <li>{{ comment.comment_text}}</li>
-    <li>{{ comment.created_on }}</li>
-</ul>
-{% endfor %}
 
-{% endblock content %}
+    {% endblock content %}
