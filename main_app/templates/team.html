@@ -21,25 +21,38 @@
 </form>
 
 <h2 class="background-green text-light text-center m-3 p-1"><em>Upcoming Games</em></h2>
-<div class="container justify-content-center">
+<div class="container justify-self-center">
         {% for game in upcoming %}
-        <div class="row text-center justify-content-center container background-red p-2 m-4" style="width: 25%">
-            <p class="justify-content-center text-light">{{ game.teams.home.name }} @ {{ game.teams.away.name }}</p>
-            <p class="justify-content-center text-light">{{ game.fixture.timestamp|date:"D, F j" }} at {{ game.fixture.timestamp|time:"f A T" }}</p>
-            <a class="btn text-decoration-none justify-content-center background-green text-light" style="width: 50%" href=" {% url 'game_detail' game.fixture.id %} ">View Game</a>
-            <br>
+        <div class="row text-center justify-content-center container background-red p-2 m-4" style="width: 50%">
+            <p class="text-light h4 mt-2">
+                <image style="height:60px" src="{{ game.teams.home.logo }}"></image> {{ game.teams.home.name }} vs. {{ game.teams.away.name }} <image style="height:60px" src="{{ game.teams.away.logo }}"></image>
+            </p>
+            <p class="text-light"><i class="fa-regular fa-calendar"></i> {{ game.fixture.timestamp|date:"D, F j" }} at {{ game.fixture.timestamp|time:"f A T" }}</p>
+            <p class="text-light"><i class="fa-solid fa-location-pin"></i> {{ game.fixture.venue.name }} ({{ game.teams.home.name }})</p>
+            <p class="text-light"><i class="fa-solid fa-futbol"></i> Competition: {{ game.league.name }}</p>
+            <a class="btn text-decoration-none justify-content-center background-green text-light" style="width: 30%" href=" {% url 'game_detail' game.fixture.id %} ">View Game</a>
         </div>
         {% endfor %}
 </div>
 
 
 <h2 class="background-green text-light text-center m-3 p-1"><em>About {{ team.team.name }}</em></h2>
-<div class="container mx-auto background-green"></div>
-    <div class="row background-red justify-content-center p-2 m-4" style="width: 50%">
-        <p class="text-center text-light">Founded: <em>{{ team.team.founded }}</em></p>
-        <p class="text-center text-light">Home Field: <em>{{ team.venue.name }}</em></p>
-        <p class="text-center text-light">Capacity: <em>{{ team.venue.capacity }}</em></p>
-        <image class="text-center background-green p-2" src=" {{ team.venue.image }} "></image>
+<div class="row">
+    <div class="col-6 align-self-center">
+        <div class="card background-green">
+            <img class="text-center p-2" src=" {{ team.venue.image }} "></img>
+        </div>
+    </div>
+    <div class="col-6 align-self-center">
+        <div class="card background-red">
+            <h3 class="text-center text-light card-title">{{ team.team.name }}</h3>
+            <div class="card-body">
+                <p class="text-center card-text text-light"><strong>Founded: <em>{{ team.team.founded }}</em></strong></p>
+                <p class="text-center card-text text-light"><strong>Home Field: <em>{{ team.venue.name }}</em></strong></p>
+                <p class="text-center card-text text-light"><strong>Capacity: <em>{{ team.venue.capacity }}</em></strong></p>
+            </div>
+
+        </div>
     </div>
 </div>
 
