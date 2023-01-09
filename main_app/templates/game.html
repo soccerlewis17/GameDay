@@ -174,4 +174,19 @@
         <p>Referee: {{ game.fixture.referee }}</p>
     </div>
 {% endif %} 
+
+<form action="{% url 'add_comment' game.fixture.id %}" method="POST">
+    {% csrf_token %}
+    {{ comment_form.as_p }}
+    <input type="submit" class="btn" value="Add Comment">
+</form>
+
+
+{% for comment in comments  %}
+<ul>
+    <li>{{ comment.comment_text}}</li>
+    <li>{{ comment.created_on }}</li>
+</ul>
+{% endfor %}
+
 {% endblock content %}
