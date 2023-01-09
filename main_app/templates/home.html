@@ -5,8 +5,8 @@
 {% if user.is_authenticated %}
 
 <div class="dropdown text-end px-5 pb-2">
-    <button class="btn dropdown-toggle background-green m-4" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-        Add Teams Will Go Here?
+    <button class="btn add_fav_btn dropdown-toggle text-light background-green m-4" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+        Add Favorite Teams
     </button>
 
         
@@ -38,14 +38,13 @@
             
             {% if favorite == game.id %}
 
-                <p>
-                    <image src="{{ game.game.teams.home.logo }}"></image> vs. <image src="{{ game.game.teams.away.logo }}"></image>
+                <p class="text-light h4 mt-2">
+                    <image style="height:60px" src="{{ game.game.teams.home.logo }}"></image> {{ game.game.teams.home.name }} vs. {{ game.game.teams.away.name }} <image style="height:60px" src="{{ game.game.teams.away.logo }}"></image>
                 </p>
-                <p>{{ game.game.fixture.venue.name }}</p>
-                <p>{{ game.game.fixture.timestamp|date:"D, F j" }} at {{ game.fixture.timestamp|time:"f A T" }}</p>
-                <p>Referee: {{ game.game.fixture.referee }}</p>
-                <p>Competition: {{ game.game.league.name }} <image src="{{ game.game.league.logo }}"></image>
-                </p>
+                <p class="text-light"><i class="fa-regular fa-calendar"></i> {{ game.game.fixture.timestamp|date:"D, F j" }} at {{ game.fixture.timestamp|time:"f A T" }}</p>
+                <p class="text-light"><i class="fa-solid fa-location-pin"></i> {{ game.game.fixture.venue.name }} ({{ game.game.teams.home.name }})</p>
+                <p class="text-light"><i class="fa-solid fa-futbol"></i> Competition: {{ game.game.league.name }}</p>
+                <button class="btn view_game_btn background-red text-light m-2">View Game</button>
             {% endif %}
                     
             {% endfor %}
