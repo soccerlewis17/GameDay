@@ -4,6 +4,7 @@ from django.contrib.auth.forms import UserCreationForm
 from .models import Favorite, Comment
 from django.contrib.auth.decorators import login_required
 from datetime import datetime
+from .forms import CommentForm
 
 import requests  # allow us to make api calls
 headers = {
@@ -107,8 +108,10 @@ def team_detail(request, team_id):
 def game_detail(request, game_id):
     game = get_game_info(game_id)
     fix_timestamp(game)
+    comment_form = CommentForm()
     live_stats = get_game_stats(game_id)
-    return render(request, 'game.html', {'game': game, 'stats': live_stats})
+    comments = Comment.objects.filter(game_id=game_id)
+    return render(request, 'game.html', {'game': game, 'stats': live_stats, 'comment_form': comment_form, 'comments': comments})
 
 
 def signup(request):
@@ -138,3 +141,13 @@ def remove_team(request, team_id):
     team = Favorite.objects.filter(team_id=team_id, user=request.user)
     team.delete()
     return redirect('/')
+
+@login_required
+def add_comment(request, game_id):
+    form = CommentForm(request.POST)
+    if form.is_valid():
+        new_comment = form.save(commit=False)
+        new_comment.game_id = game_id
+        new_comment.user = request.user
+        new_comment.save()
+    return redirect('game_detail', game_id=game_id)
