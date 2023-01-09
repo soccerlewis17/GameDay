@@ -36,15 +36,15 @@
         <div class="text-center background-green">
             {% for game in games %}
             
-            {% if favorite == game.teams.home.id or favorite == game.teams.away.id%}
+            {% if favorite == game.id %}
 
                 <p>
-                    <image src="{{ game.teams.home.logo }}"></image> vs. <image src="{{ game.teams.away.logo }}"></image>
+                    <image src="{{ game.game.teams.home.logo }}"></image> vs. <image src="{{ game.game.teams.away.logo }}"></image>
                 </p>
-                <p>{{ game.fixture.venue.name }}</p>
-                <p>{{ game.fixture.timestamp|date:"D, F j" }} at {{ game.fixture.timestamp|time:"f A T" }}</p>
-                <p>Referee: {{ game.fixture.referee }}</p>
-                <p>Competition: {{ game.league.name }} <image src="{{ game.league.logo }}"></image>
+                <p>{{ game.game.fixture.venue.name }}</p>
+                <p>{{ game.game.fixture.timestamp|date:"D, F j" }} at {{ game.fixture.timestamp|time:"f A T" }}</p>
+                <p>Referee: {{ game.game.fixture.referee }}</p>
+                <p>Competition: {{ game.game.league.name }} <image src="{{ game.game.league.logo }}"></image>
                 </p>
             {% endif %}
                     

@@ -2,58 +2,176 @@
 
 
 {% block content %}
-<h1>game page</h1>
-
-<p><image src="{{ game.teams.home.logo }}"></image> vs. <image src="{{ game.teams.away.logo }}"></image></p>
-<p>{{ game.fixture.venue.name }}</p>
-<p>{{ game.fixture.timestamp|date:"D, F j" }} at {{ game.fixture.timestamp|time:"f A T" }}</p>
-<p>Referee: {{ game.fixture.referee }}</p>
-<p>Competition: {{ game.league.name }} <image src="{{ game.league.logo }}"></image></p>
-
-
 {% if game.lineups %}
-<p>{{ game.fixture.status.long }}: {{ game.fixture.status.elapsed }}</p>
-<p>Home: {{ game.goals.home }} Away: {{ game.goals.away }}</p>
-<h4>Game events:</h4>
-<ul>
-    
-    {% for event in game.events %}
-        <li>{{ event.time.elapsed }} - {{ event.team.name }}: {{ event.type }}, {{ event.player.name }}
-            {% if event.comments == None %}
-                {% else %}
-                : {{ event.detail }}
-            {% endif %}   
-        </li>
-    {% endfor %}
-        
-</ul>
-<h3>Lineups</h3>
+<div class=" py-4 row justify-content-center">
+    <div class="col-3 d-flex flex-column justify-content-center">
+        <image src="{{ game.teams.home.logo }}" class="img-fluid"></image>
+    </div>
+    <div class="col-5 d-flex flex-row justify-content-between text-center">
+        <div class="d-flex flex-column justify-content-center">
+            <h2>{{ game.goals.home }}</h2>
+        </div>
+        <div class="d-flex flex-column justify-content-center">
+            <p class="fw-bold" style="margin-bottom: -5px;">{{ game.fixture.status.elapsed }}</p>
+            <p class="lh-sm">{{ game.fixture.status.long }}</p>
+        </div>
+        <div class="d-flex flex-column justify-content-center">
+            <h2>{{ game.goals.away }}</h2>
+        </div>
+    </div>
+    <div class="col-3 d-flex flex-column justify-content-center">
+        <image src="{{ game.teams.away.logo }}" class="img-fluid"></image>
+    </div>
+</div>
+<div class="row justify-content-center">
+    <div class="col-9 col-sm-5 my-2">
+        <h5 class="text-center">{{ game.teams.home.name }}</h5>
+        <div style="height:20vh;overflow:scroll;">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">Min</th>
+                        <th scope="col">Player</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for event in game.events %}
+                    {% if event.team.name == game.teams.home.name %}
+                    <tr>
+                        <td>{{ event.time.elapsed }}'</td>
+                        <td>{{ event.player.name }}</td>
+                        <td>
+                            {% if event.comments == None %}
+                            {{ event.type }}</td>
+                        {% else %}
+                        {{ event.detail }}</td>
+                        {% endif %}
+                        {% endif %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="col-9 col-sm-5 my-2">
+        <h5 class="text-center">{{ game.teams.away.name }}</h5>
+        <div style="height:20vh;overflow:scroll;">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">Min</th>
+                        <th scope="col">Player</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for event in game.events %}
+                    {% if event.team.name == game.teams.away.name %}
+                    <tr>
+                        <td>{{ event.time.elapsed }}'</td>
+                        <td>{{ event.player.name }}</td>
+                        <td>
+                            {% if event.comments == None %}
+                            {{ event.type }}</td>
+                        {% else %}
+                        {{ event.detail }}</td>
+                        {% endif %}
+                        {% endif %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="row my-2 justify-content-center">
+    <div class="col-sm-6">
+        <h3 class="text-center">Lineups</h3>
+        <ul class="d-flex justify-content-center nav nav-pills mb-3" id="pills-tab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home"
+                    type="button" role="tab" aria-controls="pills-home" aria-selected="true">Home</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="pills-away-tab" data-bs-toggle="pill" data-bs-target="#pills-away"
+                    type="button" role="tab" aria-controls="pills-away" aria-selected="false">Away</button>
+            </li>
+        </ul>
+        <div class="tab-content" id="pills-tabContent">
+            <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+                <h5>{{ game.lineups.0.team.name }}</h5>
+                <p>Formation: {{ game.lineups.0.formation }}</p>
+                <h6>Players:</h6>
+                <ul class="list-group list-group-unstyled">
+                    {% for player in game.lineups.0.startXI %}
+                    <li class="list-group-item list-group-item-secondary"><span class="badge bg-primary rounded-pill">{{ player.player.pos }}</span>  <span class="fw-light">{{ player.player.number }}</span> <span class="fw-bold">{{player.player.name }}</span></li>
+                    {% endfor %}
+                </ul>
+                <p>Coach: {{ game.lineups.0.coach.name }}</p>
+            </div>
+            <div class="tab-pane fade" id="pills-away" role="tabpanel" aria-labelledby="pills-away-tab">
+                <h5>{{ game.lineups.1.team.name }}</h5>
+                <p>Formation: {{ game.lineups.1.formation }}</p>
+                <h6>Players:</h6>
+                <ul class="list-group list-group-unstyled">
+                    {% for player in game.lineups.1.startXI %}
+                    <li class="list-group-item list-group-item-secondary"><span class="badge bg-primary rounded-pill">{{player.player.pos }}</span> <span class="fw-light">{{ player.player.number }}</span> <span
+                            class="fw-bold">{{player.player.name }}</span></li>
+                    {% endfor %}
+                </ul>
+                <p>Coach: {{ game.lineups.1.coach.name }}</p>
+            </div>
+        </div>
+    </div>
+</div>
 
-{% for lineup in game.lineups %}
-    <h5>{{ lineup.team.name }}</h5>
-    <p>Formation: {{ lineup.formation }}</p>
-    <ul>
-        <h6>Players:</h6>
-            
-            {% for player in lineup.startXI %}
-            <p>{{ player.player.pos }} No.{{ player.player.number }} : {{ player.player.name }}</p>
-            {% endfor %}
-            <p>Coach: {{ lineup.coach.name }}</p>
-    </ul>
+
+
+<h2>Stats!!</h2>
+{% for team in game.statistics %}
+<p>{{ team.team.name }}: {{ team.statistics }}</p>
 {% endfor %}
-    <h2>Stats!!</h2>
-    {% for team in game.statistics %}
-        <p>{{ team.team.name }}: {{ team.statistics }}</p>
-    {% endfor %}
 
 {% for team in game.players %}
-    
-    {% for player in team.players %}
-        <p>{{ player.player.name }}</p>
-        <p>{{ player.statistics.0.keys }}</p>
-    {% endfor %}
-        
+
+{% for player in team.players %}
+<p>{{ player.player.name }}</p>
+<p>{{ player.statistics.0.keys }}</p>
 {% endfor %}
-       
-{% endif %}
+
+{% endfor %}
+{% else %}
+<div class="container text-center" id="game info">
+    <div class="row d-flex justify-content-center">
+        <p>{{ game.league.name }} <image src="{{ game.league.logo }}" class="league-image img-fluid my-3"></image>
+        </p>
+    </div>
+    <div class="row justify-content-center">
+        <p>{{ game.fixture.timestamp|date:"D, F j" }} at {{ game.fixture.timestamp|time:"f A T" }}</p>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-5 d-flex flex-row-reverse">
+            <div class="flex-column">
+                <image src="{{ game.teams.home.logo }}" class="p-2 img-fluid"></image>
+                <p>{{ game.teams.home.name }}</p>
+            </div>
+        </div>
+        <div class="col-1 position-relative">
+            <h3 class="position-absolute top-50 start-50 translate-middle">VS.</h3>
+        </div>
+        <div class="col-5 d-flex flex-row">
+            <div class="flex-column">
+                <image src="{{ game.teams.away.logo }}" class="p-2 img-fluid"></image>
+                <p>{{ game.teams.away.name }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <p>{{ game.fixture.venue.name }}</p>
+    </div>
+    <div class="row justify-content-center">
+        <p>Referee: {{ game.fixture.referee }}</p>
+    </div>
+{% endif %} 
 {% endblock content %}
