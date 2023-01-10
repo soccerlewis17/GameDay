@@ -13,7 +13,7 @@ class CommentForm(ModelForm):
         widgets = { 
             'comment_text': forms.Textarea(attrs={
                 'class': "form-control",
-                'style': 'max-width: 100%; height: 10vh;',
+                'style': 'max-width: 100%; height: 5vh;',
                 'placeholder': 'Comment on this matchup'
             }),
         }

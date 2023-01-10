@@ -2,349 +2,378 @@
 
 
 {% block content %}
-{% if game.lineups %}
-<div class=" py-4 row justify-content-center">
-    <div class="col-3 d-flex flex-column justify-content-center">
-        <image src="{{ game.teams.home.logo }}" class="img-fluid"></image>
-    </div>
-    <div class="col-5 d-flex flex-row justify-content-between text-center">
-        <div class="d-flex flex-column justify-content-center">
-            <h2>{{ game.goals.home }}</h2>
-        </div>
-        <div class="d-flex flex-column justify-content-center">
-            <p class="fw-bold" style="margin-bottom: -5px;">{{ game.fixture.status.elapsed }}</p>
-            <p class="lh-sm">{{ game.fixture.status.long }}</p>
-        </div>
-        <div class="d-flex flex-column justify-content-center">
-            <h2>{{ game.goals.away }}</h2>
-        </div>
-    </div>
-    <div class="col-3 d-flex flex-column justify-content-center">
-        <image src="{{ game.teams.away.logo }}" class="img-fluid"></image>
-    </div>
-</div>
-<ul class="d-flex justify-content-center nav nav-pills mb-3" id="pills-tab" role="tablist">
-    <li class="nav-item" role="presentation">
-        <button class="nav-link active" id="pills-events-tab" data-bs-toggle="pill" data-bs-target="#pills-events"
-            type="button" role="tab" aria-controls="pills-events" aria-selected="true">Events</button>
-    </li>
-    <li class="nav-item" role="presentation">
-        <button class="nav-link" id="pills-lineups-tab" data-bs-toggle="pill" data-bs-target="#pills-lineups"
-            type="button" role="tab" aria-controls="pills-lineups" aria-selected="false">Lineups</button>
-    </li>
-    <li class="nav-item" role="presentation">
-        <button class="nav-link" id="pills-stats-tab" data-bs-toggle="pill" data-bs-target="#pills-stats" type="button"
-            role="tab" aria-controls="pills-stats" aria-selected="false">Stats</button>
-    </li>
-</ul>
-<div class="tab-content" id="pills-tabContent">
-    <div class="tab-pane fade show active" id="pills-events" role="tabpanel" aria-labelledby="pills-events-tab">
-        <div class="row justify-content-center">
-            <div class="col-9 col-sm-5 my-2">
-                <h5 class="text-center">{{ game.teams.home.name }}</h5>
-                <div style="height:20vh;overflow:scroll;">
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th scope="col">Min</th>
-                                <th scope="col">Player</th>
-                                <th scope="col"></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for event in game.events %}
-                            {% if event.team.name == game.teams.home.name %}
-                            <tr>
-                                <td>{{ event.time.elapsed }}'</td>
-                                <td>{{ event.player.name }}</td>
-                                <td>
-                                    {% if event.comments == None %}
-                                    {{ event.type }}</td>
-                                {% else %}
-                                {{ event.detail }}</td>
-                                {% endif %}
-                                {% endif %}
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
+
+<div class="row justify-content-around">
+    <div class="col-11 col-sm-6 p-1 justify-content-center text-center rounded my-2">
+
+        {% if game.lineups %}
+        <div style="height:40vh" class="d-flex flex-column justify-content-around background-red rounded p-2">
+            <class class="row d-flex flex-row justify-content-between">
+                <div class="col">
+                    <a href="{% url 'team_detail' game.teams.home.id %}">
+                        <image src="{{ game.teams.home.logo }}" class="img-fluid"></image>
+                    </a>
+                    <h4 class="text-light">{{ game.teams.home.name }}</h4>
                 </div>
-            </div>
-            <div class="col-9 col-sm-5 my-2">
-                <h5 class="text-center">{{ game.teams.away.name }}</h5>
-                <div style="height:20vh;overflow:scroll;">
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th scope="col">Min</th>
-                                <th scope="col">Player</th>
-                                <th scope="col"></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for event in game.events %}
-                            {% if event.team.name == game.teams.away.name %}
-                            <tr>
-                                <td>{{ event.time.elapsed }}'</td>
-                                <td>{{ event.player.name }}</td>
-                                <td>
-                                    {% if event.comments == None %}
-                                    {{ event.type }}</td>
-                                {% else %}
-                                {{ event.detail }}</td>
-                                {% endif %}
-                                {% endif %}
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
+                <!-- <div class="col justify-content-between">
+                    <h4 class="text-light">VS.</h4>
+                </div> -->
+                <div class="col">
+                    <a href="{% url 'team_detail' game.teams.away.id %}">
+                        <image src="{{ game.teams.away.logo }}" class="img-fluid"></image>
+                    </a>
+                    <h4 class="text-light">{{ game.teams.away.name }}</h4>
+                </div>
+            </class>
+            <div class="row" style="height:15px;">
+                <div class="col">
+                    <h3 class="text-light">{{ game.goals.home }}</h3>
+                </div>
+                <div class="col d-flex flex-column justify-content-center" style="height:100%;">
+
+                    <p class="fw-bold text-light" style="margin-bottom: -5px;">{{ game.fixture.status.elapsed }}'</p>
+                    <p class="lh-sm text-light">{{ game.fixture.status.long }}</p>
+
+                </div>
+                <div class="col">
+                    <h3 class="text-light">{{ game.goals.away }}</h3>
                 </div>
             </div>
         </div>
+        {% else %}
+        <div class="background-red rounded">
+            <p class="align-middle text-light m-1 fs-5 fw-semibold">{{ game.fixture.timestamp|date:"D, F j" }} at {{ game.fixture.timestamp|time:"f A T" }}</p>
+        </div>
+        <p class="fs-5 fw-semibold">{{ game.league.name }} <image src="{{ game.league.logo }}"
+                class="league-image img-fluid mt-1">
+            </image>
+        </p>
+        <div class="d-flex flex-row justify-content-around">
+            <p class="fs-5 fw-sembold"><i class="fa-solid fa-location-pin"></i> {{ game.fixture.venue.name }}</p>
+            <p class="fs-5 fw-sembold">Referee: {{ game.fixture.referee }}</p>
+        </div>
+        <div class="row justify-content-center background-green rounded">
+            <div class="col-5 d-flex flex-row-reverse">
+                <div class="flex-column">
+                    <a href="{% url 'team_detail' game.teams.home.id %}">
+                        <image src="{{ game.teams.home.logo }}" class="p-2 img-fluid"></image>
+                    </a>
+                    <p class="text-light fs-4">{{ game.teams.home.name }}</p>
+                </div>
+            </div>
+            <div class="col-1 position-relative">
+                <h3 class="position-absolute top-50 start-50 translate-middle text-light">VS.</h3>
+            </div>
+            <div class="col-5 d-flex flex-row">
+                <div class="flex-column">
+                    <a href="{% url 'team_detail' game.teams.away.id %}">
+                        <image src="{{ game.teams.away.logo }}" class="p-2 img-fluid"></image>
+                    </a>
+                    <p class="text-light fs-4">{{ game.teams.away.name }}</p>
+                </div>
+            </div>
+        </div>
+        {% endif %}
     </div>
-    <div class="tab-pane fade" id="pills-lineups" role="tabpanel" aria-labelledby="pills-lineups-tab">
-        <div class="row my-2 justify-content-center">
-            <div class="col-sm-6">
-                <ul class="d-flex justify-content-center nav nav-pills mb-3" id="pills-tab" role="tablist">
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill"
-                            data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home"
-                            aria-selected="true">Home</button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="pills-away-tab" data-bs-toggle="pill" data-bs-target="#pills-away"
-                            type="button" role="tab" aria-controls="pills-away" aria-selected="false">Away</button>
-                    </li>
-                </ul>
-                <div class="tab-content" id="pills-tabContent">
-                    <div class="tab-pane fade show active" id="pills-home" role="tabpanel"
-                        aria-labelledby="pills-home-tab">
-                        <h5>{{ game.lineups.0.team.name }}</h5>
-                        <p>Formation: {{ game.lineups.0.formation }}</p>
-                        <h6>Players:</h6>
-                        <div style="height:25vh;overflow:scroll">
-                            <ul class="list-group list-group-unstyled">
-                            {% for player in game.lineups.0.startXI %}
-                            <li class="list-group-item list-group-item-secondary"><span
-                                    class="badge bg-primary rounded-pill">{{player.player.pos }}</span> <span
-                                    class="fw-light">{{ player.player.number }}</span> <span
-                                    class="fw-bold">{{player.player.name }}</span></li>
-                            {% endfor %}
-                            </ul>
+
+    {% if game.lineups %}
+    <div class="col-12 col-sm-11 order-sm-5 p-1 ">
+        <ul class="d-flex justify-content-center nav nav-pills mb-3" id="pills-tab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="pills-events-tab" data-bs-toggle="pill"
+                    data-bs-target="#pills-events" type="button" role="tab" aria-controls="pills-events"
+                    aria-selected="true">Events</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="pills-lineups-tab" data-bs-toggle="pill" data-bs-target="#pills-lineups"
+                    type="button" role="tab" aria-controls="pills-lineups" aria-selected="false">Lineups</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="pills-stats-tab" data-bs-toggle="pill" data-bs-target="#pills-stats"
+                    type="button" role="tab" aria-controls="pills-stats" aria-selected="false">Stats</button>
+            </li>
+        </ul>
+        <div class="tab-content" id="pills-tabContent">
+            <div class="tab-pane fade show active" id="pills-events" role="tabpanel" aria-labelledby="pills-events-tab">
+                <div class="row justify-content-center">
+                    <div class="col-9 col-sm-5 my-2">
+                        <h5 class="text-center">{{ game.teams.home.name }}</h5>
+                        <div style="height:20vh;overflow:scroll;">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Min</th>
+                                        <th scope="col">Player</th>
+                                        <th scope="col"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for event in game.events %}
+                                    {% if event.team.name == game.teams.home.name %}
+                                    <tr>
+                                        <td>{{ event.time.elapsed }}'</td>
+                                        <td>{{ event.player.name }}</td>
+                                        <td>
+                                            {% if event.comments == None %}
+                                            {{ event.type }}</td>
+                                        {% else %}
+                                        {{ event.detail }}</td>
+                                        {% endif %}
+                                        {% endif %}
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
                         </div>
-                        <p>Coach: {{ game.lineups.0.coach.name }}</p>
                     </div>
-                    <div class="tab-pane fade" id="pills-away" role="tabpanel" aria-labelledby="pills-away-tab">
-                        <h5>{{ game.lineups.1.team.name }}</h5>
-                        <p>Formation: {{ game.lineups.1.formation }}</p>
-                        <h6>Players:</h6>
-                        <div style="height:25vh;overflow:scroll">
-                        <ul class="list-group list-group-unstyled">
-                            {% for player in game.lineups.1.startXI %}
-                            <li class="list-group-item list-group-item-secondary"><span
-                                    class="badge bg-primary rounded-pill">{{player.player.pos }}</span> <span
-                                    class="fw-light">{{ player.player.number }}</span> <span
-                                    class="fw-bold">{{player.player.name }}</span></li>
-                            {% endfor %}
+                    <div class="col-9 col-sm-5 my-2">
+                        <h5 class="text-center">{{ game.teams.away.name }}</h5>
+                        <div style="height:20vh;overflow:scroll;">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Min</th>
+                                        <th scope="col">Player</th>
+                                        <th scope="col"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for event in game.events %}
+                                    {% if event.team.name == game.teams.away.name %}
+                                    <tr>
+                                        <td>{{ event.time.elapsed }}'</td>
+                                        <td>{{ event.player.name }}</td>
+                                        <td>
+                                            {% if event.comments == None %}
+                                            {{ event.type }}</td>
+                                        {% else %}
+                                        {{ event.detail }}</td>
+                                        {% endif %}
+                                        {% endif %}
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="pills-lineups" role="tabpanel" aria-labelledby="pills-lineups-tab">
+                <div class="row my-2 justify-content-center">
+                    <div class="col-sm-6">
+                        <ul class="d-flex justify-content-center nav nav-pills mb-3" id="pills-tab" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill"
+                                    data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home"
+                                    aria-selected="true">Home</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="pills-away-tab" data-bs-toggle="pill"
+                                    data-bs-target="#pills-away" type="button" role="tab" aria-controls="pills-away"
+                                    aria-selected="false">Away</button>
+                            </li>
                         </ul>
-                    </div>
-                        <p>Coach: {{ game.lineups.1.coach.name }}</p>
+                        <div class="tab-content" id="pills-tabContent">
+                            <div class="tab-pane fade show active" id="pills-home" role="tabpanel"
+                                aria-labelledby="pills-home-tab">
+                                <h5>{{ game.lineups.0.team.name }}</h5>
+                                <p>Formation: {{ game.lineups.0.formation }}</p>
+                                <h6>Players:</h6>
+                                <div style="height:25vh;overflow:scroll">
+                                    <ul class="list-group list-group-unstyled">
+                                        {% for player in game.lineups.0.startXI %}
+                                        <li class="list-group-item list-group-item-secondary"><span
+                                                class="badge bg-primary rounded-pill">{{player.player.pos }}</span>
+                                            <span class="fw-light">{{ player.player.number }}</span> <span
+                                                class="fw-bold">{{player.player.name }}</span>
+                                        </li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                                <p>Coach: {{ game.lineups.0.coach.name }}</p>
+                            </div>
+                            <div class="tab-pane fade" id="pills-away" role="tabpanel" aria-labelledby="pills-away-tab">
+                                <h5>{{ game.lineups.1.team.name }}</h5>
+                                <p>Formation: {{ game.lineups.1.formation }}</p>
+                                <h6>Players:</h6>
+                                <div style="height:25vh;overflow:scroll">
+                                    <ul class="list-group list-group-unstyled">
+                                        {% for player in game.lineups.1.startXI %}
+                                        <li class="list-group-item list-group-item-secondary"><span
+                                                class="badge bg-primary rounded-pill">{{player.player.pos }}</span>
+                                            <span class="fw-light">{{ player.player.number }}</span> <span
+                                                class="fw-bold">{{player.player.name }}</span>
+                                        </li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                                <p>Coach: {{ game.lineups.1.coach.name }}</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-    <div class="tab-pane fade" id="pills-stats" role="tabpanel" aria-labelledby="pills-stats-tab">
-        <div class="row justify-content-center">
-            <ul class="d-flex justify-content-center nav nav-pills mb-3" id="pills-tab" role="tablist">
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link active" id="pills-matchup-tab" data-bs-toggle="pill"
-                        data-bs-target="#pills-matchup" type="button" role="tab" aria-controls="pills-matchup"
-                        aria-selected="true">Matchup</button>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="pills-home-stats-tab" data-bs-toggle="pill"
-                        data-bs-target="#pills-homestats" type="button" role="tab" aria-controls="pills-homestats"
-                        aria-selected="false">Home</button>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="pills-awaystats-tab" data-bs-toggle="pill"
-                        data-bs-target="#pills-awaystats" type="button" role="tab" aria-controls="pills-awaystats"
-                        aria-selected="false">Away</button>
-                </li>
-            </ul>
-            <div class="tab-content" id="pills-tabContent">
-                <div class="tab-pane fade show active" id="pills-matchup" role="tabpanel"
-                    aria-labelledby="pills-matchup-tab">
-                    <div class="row justify-content-center">
-                        <div class="col-sm-8 text-center d-flex flex-column justify-content-center px-4">
-                            <p>Posession</p>
-                            <div class="progress m-2">
-                                <div class="progress-bar bg-success" role="progressbar"
-                                    style="width: {{ game.statistics.0.statistics.9.value }}" aria-valuenow="0"
-                                    aria-valuemin="0" aria-valuemax="100">{{ game.statistics.0.statistics.9.value }}
-                                </div>
-                                <div class="progress-bar bg-danger" role="progressbar"
-                                    style="width: {{ game.statistics.1.statistics.9.value }}" aria-valuenow="0"
-                                    aria-valuemin="0" aria-valuemax="100">{{ game.statistics.1.statistics.9.value }}
-                                </div>
-                            </div>
-                            <div class="d-flex justify-content-between">
-                                <p>{{ game.statistics.0.statistics.6.value }}</p>
-                                <p>{{ game.statistics.0.statistics.6.type }}</p>
-                                <p>{{ game.statistics.1.statistics.6.value }}</p>
-                            </div>
-                            <div class="d-flex justify-content-between">
-                                <p>{{ game.statistics.0.statistics.7.value }}</p>
-                                <p>{{ game.statistics.0.statistics.7.type }}</p>
-                                <p>{{ game.statistics.1.statistics.7.value }}</p>
-                            </div>
-                            <div class="d-flex justify-content-between">
-                                <p>{{ game.statistics.0.statistics.8.value }}</p>
-                                <p>{{ game.statistics.0.statistics.8.type }}</p>
-                                <p>{{ game.statistics.1.statistics.8.value }}</p>
-                            </div>
-                            <div class="d-flex justify-content-between">
-                                <p>{{ game.statistics.0.statistics.10.value }}</p>
-                                <p>{{ game.statistics.0.statistics.10.type }}</p>
-                                <p>{{ game.statistics.1.statistics.10.value }}</p>
-                            </div>
-                            <div class="d-flex justify-content-between">
-                                <p>{{ game.statistics.0.statistics.11.value }}</p>
-                                <p>{{ game.statistics.0.statistics.11.type }}</p>
-                                <p>{{ game.statistics.1.statistics.11.value }}</p>
-                            </div>
-                            <div class="d-flex justify-content-between">
-                                <p>{{ game.statistics.0.statistics.12.value }}</p>
-                                <p>{{ game.statistics.0.statistics.12.type }}</p>
-                                <p>{{ game.statistics.1.statistics.12.value }}</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="tab-pane fade" id="pills-homestats" role="tabpanel" aria-labelledby="pills-homestats-tab">
-                    <div class="row justify-content-center">
-                        <div class="col-sm-8 text-center d-flex flex-column justify-content-center">
-                            <p>Shots: {{ game.statistics.0.statistics.2.value }}</p>
-                            <div class="progress m-2">
-                                <div class="progress-bar bg-success" role="progressbar"
-                                    style="width: {% widthratio game.statistics.0.statistics.0.value game.statistics.0.statistics.2.value 100 %}%"
-                                    aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">On Goal: {{ game.statistics.0.statistics.0.value }}</div>
-                                <div class="progress-bar bg-info" role="progressbar"
-                                    style="width: {% widthratio game.statistics.0.statistics.3.value game.statistics.0.statistics.2.value 100 %}%"
-                                    aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">Blocked: {{ game.statistics.0.statistics.3.value }}</div>
-                                <div class="progress-bar bg-warning" role="progressbar"
-                                    style="width: {% widthratio game.statistics.0.statistics.1.value game.statistics.0.statistics.2.value 100 %}%"
-                                    aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">Missed: {{ game.statistics.0.statistics.1.value }}</div>
-                            </div>
-                            <p>Total Passes: {{ game.statistics.0.statistics.13.value }}</p>
-                            <div class="progress m-2">
-                                <div class="progress-bar bg-success" role="progressbar"
-                                    style="width: {{ game.statistics.0.statistics.15.value }}" aria-valuenow="0"
-                                    aria-valuemin="0" aria-valuemax="100">{{ game.statistics.0.statistics.14.value }} completed ({{ game.statistics.0.statistics.15.value }})
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                    <div class="tab-pane fade" id="pills-awaystats" role="tabpanel"
-                        aria-labelledby="pills-awaystats-tab">
-                        <div class="row justify-content-center">
-                            <div class="col-sm-8 text-center d-flex flex-column justify-content-center">
-                                <p>Shots: {{ game.statistics.1.statistics.2.value }}</p>
-                                <div class="progress m-2">
-                                    <div class="progress-bar bg-success" role="progressbar"
-                                        style="width: {% widthratio game.statistics.1.statistics.0.value game.statistics.1.statistics.2.value 100 %}%"
-                                        aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">On Goal: {{ game.statistics.1.statistics.0.value }}</div>
-                                    <div class="progress-bar bg-info" role="progressbar"
-                                        style="width: {% widthratio game.statistics.1.statistics.3.value game.statistics.1.statistics.2.value 100 %}%"
-                                        aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">Blocked: {{ game.statistics.1.statistics.3.value }}</div>
-                                    <div class="progress-bar bg-warning" role="progressbar"
-                                        style="width: {% widthratio game.statistics.1.statistics.1.value game.statistics.1.statistics.2.value 100 %}%"
-                                        aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">Missed: {{ game.statistics.1.statistics.1.value }}</div>
-                                </div>
-                                <p>Total Passes: {{ game.statistics.1.statistics.13.value }}</p>
-                                <div class="progress m-2">
-                                    <div class="progress-bar bg-success" role="progressbar"
-                                        style="width: {{ game.statistics.1.statistics.15.value }}" aria-valuenow="0"
-                                        aria-valuemin="0" aria-valuemax="100">{{ game.statistics.1.statistics.14.value }} completed ({{ game.statistics.1.statistics.15.value }})
+            <div class="tab-pane fade" id="pills-stats" role="tabpanel" aria-labelledby="pills-stats-tab">
+                <div class="row justify-content-center">
+                    <ul class="d-flex justify-content-center nav nav-pills mb-3" id="pills-tab" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="pills-matchup-tab" data-bs-toggle="pill"
+                                data-bs-target="#pills-matchup" type="button" role="tab" aria-controls="pills-matchup"
+                                aria-selected="true">Matchup</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="pills-home-stats-tab" data-bs-toggle="pill"
+                                data-bs-target="#pills-homestats" type="button" role="tab"
+                                aria-controls="pills-homestats" aria-selected="false">Home</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="pills-awaystats-tab" data-bs-toggle="pill"
+                                data-bs-target="#pills-awaystats" type="button" role="tab"
+                                aria-controls="pills-awaystats" aria-selected="false">Away</button>
+                        </li>
+                    </ul>
+                    <div class="tab-content" id="pills-tabContent">
+                        <div class="tab-pane fade show active" id="pills-matchup" role="tabpanel"
+                            aria-labelledby="pills-matchup-tab">
+                            <div class="row justify-content-center">
+                                <div class="col-sm-8 text-center d-flex flex-column justify-content-center px-4">
+                                    <p>Posession</p>
+                                    <div class="progress m-2">
+                                        <div class="progress-bar bg-success" role="progressbar"
+                                            style="width: {{ game.statistics.0.statistics.9.value }}" aria-valuenow="0"
+                                            aria-valuemin="0" aria-valuemax="100">{{ game.statistics.0.statistics.9.value }}
+                                        </div>
+                                        <div class="progress-bar bg-danger" role="progressbar"
+                                            style="width: {{ game.statistics.1.statistics.9.value }}" aria-valuenow="0"
+                                            aria-valuemin="0" aria-valuemax="100">{{ game.statistics.1.statistics.9.value }}
+                                        </div>
+                                    </div>
+                                    <div class="d-flex justify-content-between">
+                                        <p>{{ game.statistics.0.statistics.6.value }}</p>
+                                        <p>{{ game.statistics.0.statistics.6.type }}</p>
+                                        <p>{{ game.statistics.1.statistics.6.value }}</p>
+                                    </div>
+                                    <div class="d-flex justify-content-between">
+                                        <p>{{ game.statistics.0.statistics.7.value }}</p>
+                                        <p>{{ game.statistics.0.statistics.7.type }}</p>
+                                        <p>{{ game.statistics.1.statistics.7.value }}</p>
+                                    </div>
+                                    <div class="d-flex justify-content-between">
+                                        <p>{{ game.statistics.0.statistics.8.value }}</p>
+                                        <p>{{ game.statistics.0.statistics.8.type }}</p>
+                                        <p>{{ game.statistics.1.statistics.8.value }}</p>
+                                    </div>
+                                    <div class="d-flex justify-content-between">
+                                        <p>{{ game.statistics.0.statistics.10.value }}</p>
+                                        <p>{{ game.statistics.0.statistics.10.type }}</p>
+                                        <p>{{ game.statistics.1.statistics.10.value }}</p>
+                                    </div>
+                                    <div class="d-flex justify-content-between">
+                                        <p>{{ game.statistics.0.statistics.11.value }}</p>
+                                        <p>{{ game.statistics.0.statistics.11.type }}</p>
+                                        <p>{{ game.statistics.1.statistics.11.value }}</p>
+                                    </div>
+                                    <div class="d-flex justify-content-between">
+                                        <p>{{ game.statistics.0.statistics.12.value }}</p>
+                                        <p>{{ game.statistics.0.statistics.12.type }}</p>
+                                        <p>{{ game.statistics.1.statistics.12.value }}</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-            </div>
-        </div>
-    </div>
-        {% else %}
-        <div class="container text-center" id="game info">
-            <div class="row d-flex justify-content-center">
-                <p>{{ game.league.name }} <image src="{{ game.league.logo }}" class="league-image img-fluid my-3">
-                    </image>
-                </p>
-            </div>
-            <div class="row justify-content-center">
-                <p>{{ game.fixture.timestamp|date:"D, F j" }} at {{ game.fixture.timestamp|time:"f A T" }}</p>
-            </div>
-            <div class="row justify-content-center">
-                <div class="col-5 d-flex flex-row-reverse">
-                    <div class="flex-column">
-                        <image src="{{ game.teams.home.logo }}" class="p-2 img-fluid"></image>
-                        <p>{{ game.teams.home.name }}</p>
-                    </div>
-                </div>
-                <div class="col-1 position-relative">
-                    <h3 class="position-absolute top-50 start-50 translate-middle">VS.</h3>
-                </div>
-                <div class="col-5 d-flex flex-row">
-                    <div class="flex-column">
-                        <image src="{{ game.teams.away.logo }}" class="p-2 img-fluid"></image>
-                        <p>{{ game.teams.away.name }}</p>
-                    </div>
-                </div>
-            </div>
-            <div class="row justify-content-center">
-                <p>{{ game.fixture.venue.name }}</p>
-            </div>
-            <div class="row justify-content-center">
-                <p>Referee: {{ game.fixture.referee }}</p>
-            </div>
-            {% endif %}
-            <div class="row d-flex justify-content-center mt-4">
-                <div class="col-md-8 col-lg-6">
-                    <div class="card shadow-0 border" style="background-color: #f0f2f5;">
-                        <div class="card-body p-4">
-                            <div class="form-outline mb-4">
-                                <form action="{% url 'add_comment' game.fixture.id %}" method="POST">
-                                    {% csrf_token %}
-                                    {{ comment_form.as_p }}
-                                    <input type="submit" class="btn btn-sm btn-primary" value="Add Comment">
-                                </form>
-                            </div>
-                            <div style="height: 25vh;overflow:scroll">
-                                {% for comment in comments %}
-                                <div class="card mb-4">
-                                    <div class="card-body">
-                                        <p class="fs-4">{{ comment.comment_text }}</p>
-                                        <div class="d-flex justify-content-between">
-                                            <div class="d-flex flex-row align-items-center">
-                                                <p class="small mb-0 ms-2">{{ comment.user }}: {{ comment.created_on|timesince }} ago</p>
-                                            </div>
-                                            {% if comment.user == user %}
-                                            <div class="d-flex flex-row align-items-center">
-                                                <form action="{% url 'remove_comment' comment.id %}" method="POST">
-                                                    {% csrf_token %}
-                                                    <input type="submit" value="Delete" class="btn btn-sm btn-danger">
-                                                </form>
-                                            </div>
-                                            {% endif %}
+                        <div class="tab-pane fade" id="pills-homestats" role="tabpanel"
+                            aria-labelledby="pills-homestats-tab">
+                            <div class="row justify-content-center">
+                                <div class="col-sm-8 text-center d-flex flex-column justify-content-center">
+                                    <p>Shots: {{ game.statistics.0.statistics.2.value }}</p>
+                                    <div class="progress m-2">
+                                        <div class="progress-bar bg-success" role="progressbar"
+                                            style="width: {% widthratio game.statistics.0.statistics.0.value game.statistics.0.statistics.2.value 100 %}%"
+                                            aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">On Goal: {{ game.statistics.0.statistics.0.value }}</div>
+                                        <div class="progress-bar bg-info" role="progressbar"
+                                            style="width: {% widthratio game.statistics.0.statistics.3.value game.statistics.0.statistics.2.value 100 %}%"
+                                            aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">Blocked: {{ game.statistics.0.statistics.3.value }}</div>
+                                        <div class="progress-bar bg-warning" role="progressbar"
+                                            style="width: {% widthratio game.statistics.0.statistics.1.value game.statistics.0.statistics.2.value 100 %}%"
+                                            aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">Missed: {{ game.statistics.0.statistics.1.value }}</div>
+                                    </div>
+                                    <p>Total Passes: {{ game.statistics.0.statistics.13.value }}</p>
+                                    <div class="progress m-2">
+                                        <div class="progress-bar bg-success" role="progressbar"
+                                            style="width: {{ game.statistics.0.statistics.15.value }}" aria-valuenow="0"
+                                            aria-valuemin="0" aria-valuemax="100">{{ game.statistics.0.statistics.14.value }}
+                                            completed ({{ game.statistics.0.statistics.15.value }})
                                         </div>
                                     </div>
                                 </div>
-                                {% endfor %}
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="pills-awaystats" role="tabpanel"
+                            aria-labelledby="pills-awaystats-tab">
+                            <div class="row justify-content-center">
+                                <div class="col-sm-8 text-center d-flex flex-column justify-content-center">
+                                    <p>Shots: {{ game.statistics.1.statistics.2.value }}</p>
+                                    <div class="progress m-2">
+                                        <div class="progress-bar bg-success" role="progressbar"
+                                            style="width: {% widthratio game.statistics.1.statistics.0.value game.statistics.1.statistics.2.value 100 %}%"
+                                            aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">On Goal: {{ game.statistics.1.statistics.0.value }}</div>
+                                        <div class="progress-bar bg-info" role="progressbar"
+                                            style="width: {% widthratio game.statistics.1.statistics.3.value game.statistics.1.statistics.2.value 100 %}%"
+                                            aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">Blocked: {{ game.statistics.1.statistics.3.value }}</div>
+                                        <div class="progress-bar bg-warning" role="progressbar"
+                                            style="width: {% widthratio game.statistics.1.statistics.1.value game.statistics.1.statistics.2.value 100 %}%"
+                                            aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">Missed: {{ game.statistics.1.statistics.1.value }}</div>
+                                    </div>
+                                    <p>Total Passes: {{ game.statistics.1.statistics.13.value }}</p>
+                                    <div class="progress m-2">
+                                        <div class="progress-bar bg-success" role="progressbar"
+                                            style="width: {{ game.statistics.1.statistics.15.value }}" aria-valuenow="0"
+                                            aria-valuemin="0" aria-valuemax="100">{{ game.statistics.1.statistics.14.value }}
+                                            completed ({{ game.statistics.1.statistics.15.value }})
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            {% endblock content %}
+        </div>
+    </div>
+    {% endif %}
+
+    <div class="col-12 col-sm-5">
+        <div class="card shadow-0 background-red my-2">
+            <h4 class="text-light mt-1 card-title text-center">Game Chat</h4>
+            <div class="mx-2" style="height: 25vh;overflow:scroll">
+                {% for comment in comments %}
+                <div class="card my-1">
+                    <div class="d-flex flex-row">
+                        <p class="ps-2 fw-semibold fs-5 card-title">{{ comment.comment_text }}</p>
+                        {% if comment.user == user %}
+                        <form action="{% url 'remove_comment' comment.id %}" method="POST" class="ms-auto mt-1 me-1">
+                            {% csrf_token %}
+                            <input type="submit" value="Delete" class="btn btn-sm btn-danger">
+                        </form>
+
+                        {% endif %}
+                    </div>
+                    <p class="small fw-light card-footer">{{ comment.user }}: {{ comment.created_on|timesince }}
+                        ago</p>
+                </div>
+                {% endfor %}
+            </div>
+            <div class="card-body border-top">
+
+                <div class="form-outline">
+                    <form action="{% url 'add_comment' game.fixture.id %}" method="POST">
+                        {% csrf_token %}
+                        {{ comment_form.as_p }}
+                        <input type="submit" class="btn btn-sm btn-light" value="Comment">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
