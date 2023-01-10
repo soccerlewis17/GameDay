@@ -2,77 +2,96 @@
 
 
 {% block content %}
-    <div class="container-fluid text-center">
-        <div class="d-flex justify-content-center"><image class="py-4" src="{{ team.team.logo }}"></image></div>
-        
-        <h1 class="text-light px-3 background-red">{{ team.team.name }}</h1>
-    </div>
-
-
+<div class="container-fluid text-center">
+    <div class="d-flex justify-content-center"><image class="py-4" src="{{ team.team.logo }}"></image></div>  
+    <h1 class="text-light px-3 rounded background-red">{{ team.team.name }}</h1>
+</div>
+<div class="row justify-content-center">
+    <h2 class="col background-green text-light text-center rounded m-3 p-1" style="max-width: 80%;"><em>Recent Result</em></h2>
+</div>
 {% if live %}
     <p>{{ team.team.name }} is Live!</p><a href=" {% url 'game_detail' live.0.fixture.id%} ">Follow the game</a>
 {% endif %}
-    
-
-
-<form class="text-end m-3" action=" {% url 'remove_team' team.team.id %} " method="post">
-    {% csrf_token %}
-    <button class="btn remove_fav_btn bg-light color-red" type="submit" value="Remove Favorite 2">Remove Favorite</button>
-</form>
-
-<h2 class="background-green text-light text-center m-3 p-1"><em>Upcoming Games</em></h2>
-<div class="row row-cols-1 row-cols-md-3 g-4 justify-content-center">
-        {% for game in upcoming %}
-        <div class="col-10">
-        <div class="card background-red">
-            <div class="card-body text-center">
-                <div class="d-flex justify-content-around">
-                    <image class="card-img img-fluid" style="max-width:40%;" src="{{ game.teams.home.logo }}"></image><image class="card-img img-fluid" style="max-width:40%" src="{{ game.teams.away.logo }}"></image>
+<ul class="nav nav-pills justify-content-center rounded text-center m-4" id="pills-tab" role="tablist">
+    <li class="nav-item background-red" role="presentation">
+      <button class="nav-link active text-light" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">Upcoming Games</button>
+    </li>
+    <li class="nav-item background-red" role="presentation">
+      <button class="nav-link text-light" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">About {{ team.team.name }}</button>
+    </li>
+    <li class="nav-item background-red" role="presentation">
+      <button class="nav-link text-light" id="pills-roster-tab" data-bs-toggle="pill" data-bs-target="#pills-roster" type="button" role="tab" aria-controls="pills-roster" aria-selected="false">Roster</button>
+    </li>
+  </ul>
+<div class="tab-content" id="pills-tabContent">
+    <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+        <div class="row justify-content-center">
+            <h2 class="col background-green text-light text-center rounded m-3 p-1" style="max-width: 80%;"><em>Upcoming Games</em></h2>
+        </div>
+        <div class="row row-cols-1 row-cols-md-3 g-4 justify-content-center">
+            {% for game in upcoming %}
+            <div class="col-10">
+            <div class="card background-red">
+                <div class="card-body text-center">
+                    <p class="text-light h4 mt-2">
+                        <image style="height:60px" src="{{ game.teams.home.logo }}"></image> <span>{{ game.teams.home.name }}</span> 
+                        vs. <span>{{ game.teams.away.name }}</span> <image style="height:60px" src="{{ game.teams.away.logo }}"></image>
+                    </p>
+                    <p class="text-light"><i class="fa-regular fa-calendar"></i> {{ game.fixture.timestamp|date:"D, F j" }} at {{ game.fixture.timestamp|time:"f A T" }}</p>
+                    <p class="text-light"><i class="fa-solid fa-location-pin"></i> {{ game.fixture.venue.name }} ({{ game.teams.home.name }})</p>
+                    <p class="text-light"><i class="fa-solid fa-futbol"></i> Competition: {{ game.league.name }}</p>
+                    <a class="btn text-decoration-none justify-content-center team_view_game_btn background-green text-light" href=" {% url 'game_detail' game.fixture.id %} ">View Game</a>
                 </div>
-                <h5 class="card-title text-light mt-2">{{ game.teams.home.name }} vs. {{ game.teams.away.name }}</h5>
-                <p class="text-light"><i class="fa-regular fa-calendar"></i> {{ game.fixture.timestamp|date:"D, F j" }} at {{ game.fixture.timestamp|time:"f A T" }}</p>
-                <p class="text-light"><i class="fa-solid fa-location-pin"></i> {{ game.fixture.venue.name }} ({{ game.teams.home.name }})</p>
-                <p class="text-light"><i class="fa-solid fa-futbol"></i> Competition: {{ game.league.name }}</p>
-                <a class="btn text-decoration-none justify-content-center background-green text-light" href=" {% url 'game_detail' game.fixture.id %} ">View Game</a>
+            </div>
+            </div>
+    {% endfor %}
+        </div>
+
+    </div>
+    <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+        <div class="row justify-content-center">
+            <h2 class="col background-green rounded text-light text-center m-3 p-1" style="max-width: 80%;"><em>About {{ team.team.name }}</em></h2>
+        </div>
+        <div class="row">
+            <div class="col-md-6 col-sm-12 align-self-center mb-1">
+                <div class="card background-green rounded">
+                    <img class="text-center p-2 rounded" src=" {{ team.venue.image }} "></img>
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-12 align-self-center">
+                <div class="card background-red">
+                    <h3 class="text-center text-light card-title">{{ team.team.name }}</h3>
+                    <div class="card-body">
+                        <p class="text-center card-text text-light"><strong>Founded: <em>{{ team.team.founded }}</em></strong></p>
+                        <p class="text-center card-text text-light"><strong>Home Field: <em>{{ team.venue.name }}</em></strong></p>
+                        <p class="text-center card-text text-light"><strong>Capacity: <em>{{ team.venue.capacity }}</em></strong></p>
+                    </div>
+
+                </div>
             </div>
         </div>
     </div>
-        {% endfor %}
-</div>
-
-
-<h2 class="background-green text-light text-center m-3 p-1"><em>About {{ team.team.name }}</em></h2>
-<div class="row">
-    <div class="col-6 align-self-center">
-        <div class="card background-green">
-            <img class="text-center p-2" src=" {{ team.venue.image }} "></img>
+    <div class="tab-pane fade" id="pills-roster" role="tabpanel" aria-labelledby="pills-roster-tab">
+        <div class="row justify-content-center">
+            <h2 class="col background-green text-light text-center rounded m-3 p-1" style="max-width: 80%;"><em>Meet the Squad</em></h2>
         </div>
-    </div>
-    <div class="col-6 align-self-center">
-        <div class="card background-red">
-            <h3 class="text-center text-light card-title">{{ team.team.name }}</h3>
-            <div class="card-body">
-                <p class="text-center card-text text-light"><strong>Founded: <em>{{ team.team.founded }}</em></strong></p>
-                <p class="text-center card-text text-light"><strong>Home Field: <em>{{ team.venue.name }}</em></strong></p>
-                <p class="text-center card-text text-light"><strong>Capacity: <em>{{ team.venue.capacity }}</em></strong></p>
+        <div class="container">
+            <div class="row justify-content-center">
+                {% for player in squad.players %}
+                <div class="col-sm-6 col-md-3 col-lg-2 container rounded text-center background-red m-2">
+                    <image class="text-center py-2 rounded" style="max-width: 95%;" src=" {{ player.photo }} "></image>
+                    <p class="row justify-content-center text-light">#{{ player.number }} {{ player.name }}</p>
+                    <p class="row justify-content-center text-light">{{ player.position }}</p>
+                </div>
+                {% endfor %}
             </div>
-
         </div>
     </div>
 </div>
 
-
-<h2 class="background-green text-light text-center m-3 p-1"><em>Meet the Squad</em></h2>
-<div class="container">
-    <div class="row">
-        {% for player in squad.players %}
-        <div class="col container text-center background-red m-2">
-            <image class="py-2" src=" {{ player.photo }} "></image>
-            <p class="row justify-content-center text-light">#{{ player.number }} {{ player.name }}</p>
-            <p class="row justify-content-center text-light">{{ player.position }}</p>
-        </div>
-        {% endfor %}
-    </div>
-</div>
+<form class="text-center" action=" {% url 'remove_team' team.team.id %} " method="post">
+    {% csrf_token %}
+    <button class="btn remove_fav_btn bg-danger text-light m-4" style="min-width: 20%" type="submit" value="Remove Favorite 2">Remove {{ team.team.name }} from Favorites</button>
+</form>
 {% endblock content %}
     
