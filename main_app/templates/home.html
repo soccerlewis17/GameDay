@@ -16,7 +16,7 @@
         {% else %}
             <form class="dropdown-item" action=" {% url 'favorite_team' team.team.id %} " method="post">
                 {% csrf_token %}
-            <input type="submit" value="{{ team.team.name }}">
+            <input class="btn" type="submit" value="{{ team.team.name }}">
             </form> 
         
         {% endif %}
