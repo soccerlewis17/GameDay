@@ -21,17 +21,22 @@
 </form>
 
 <h2 class="background-green text-light text-center m-3 p-1"><em>Upcoming Games</em></h2>
-<div class="container justify-self-center">
+<div class="row row-cols-1 row-cols-md-3 g-4 justify-content-center">
         {% for game in upcoming %}
-        <div class="row text-center justify-content-center container background-red p-2 m-4" style="width: 50%">
-            <p class="text-light h4 mt-2">
-                <image style="height:60px" src="{{ game.teams.home.logo }}"></image> {{ game.teams.home.name }} vs. {{ game.teams.away.name }} <image style="height:60px" src="{{ game.teams.away.logo }}"></image>
-            </p>
-            <p class="text-light"><i class="fa-regular fa-calendar"></i> {{ game.fixture.timestamp|date:"D, F j" }} at {{ game.fixture.timestamp|time:"f A T" }}</p>
-            <p class="text-light"><i class="fa-solid fa-location-pin"></i> {{ game.fixture.venue.name }} ({{ game.teams.home.name }})</p>
-            <p class="text-light"><i class="fa-solid fa-futbol"></i> Competition: {{ game.league.name }}</p>
-            <a class="btn text-decoration-none justify-content-center background-green text-light" style="width: 30%" href=" {% url 'game_detail' game.fixture.id %} ">View Game</a>
+        <div class="col-10">
+        <div class="card background-red">
+            <div class="card-body text-center">
+                <div class="d-flex justify-content-around">
+                    <image class="card-img img-fluid" style="max-width:40%;" src="{{ game.teams.home.logo }}"></image><image class="card-img img-fluid" style="max-width:40%" src="{{ game.teams.away.logo }}"></image>
+                </div>
+                <h5 class="card-title text-light mt-2">{{ game.teams.home.name }} vs. {{ game.teams.away.name }}</h5>
+                <p class="text-light"><i class="fa-regular fa-calendar"></i> {{ game.fixture.timestamp|date:"D, F j" }} at {{ game.fixture.timestamp|time:"f A T" }}</p>
+                <p class="text-light"><i class="fa-solid fa-location-pin"></i> {{ game.fixture.venue.name }} ({{ game.teams.home.name }})</p>
+                <p class="text-light"><i class="fa-solid fa-futbol"></i> Competition: {{ game.league.name }}</p>
+                <a class="btn text-decoration-none justify-content-center background-green text-light" href=" {% url 'game_detail' game.fixture.id %} ">View Game</a>
+            </div>
         </div>
+    </div>
         {% endfor %}
 </div>
 
