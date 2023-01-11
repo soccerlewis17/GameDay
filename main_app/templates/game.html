@@ -15,9 +15,6 @@
                     </a>
                     <h4 class="text-light">{{ game.teams.home.name }}</h4>
                 </div>
-                <!-- <div class="col justify-content-between">
-                    <h4 class="text-light">VS.</h4>
-                </div> -->
                 <div class="col">
                     <a href="{% url 'team_detail' game.teams.away.id %}">
                         <image src="{{ game.teams.away.logo }}" class="img-fluid"></image>
@@ -80,16 +77,16 @@
     <div class="col-12 col-sm-11 order-sm-5 p-1 ">
         <ul class="d-flex justify-content-center nav nav-pills mb-3" id="pills-tab" role="tablist">
             <li class="nav-item" role="presentation">
-                <button class="nav-link active" id="pills-events-tab" data-bs-toggle="pill"
+                <button class="nav-link active color-red" id="pills-events-tab" data-bs-toggle="pill"
                     data-bs-target="#pills-events" type="button" role="tab" aria-controls="pills-events"
                     aria-selected="true">Events</button>
             </li>
             <li class="nav-item" role="presentation">
-                <button class="nav-link" id="pills-lineups-tab" data-bs-toggle="pill" data-bs-target="#pills-lineups"
+                <button class="nav-link color-red" id="pills-lineups-tab" data-bs-toggle="pill" data-bs-target="#pills-lineups"
                     type="button" role="tab" aria-controls="pills-lineups" aria-selected="false">Lineups</button>
             </li>
             <li class="nav-item" role="presentation">
-                <button class="nav-link" id="pills-stats-tab" data-bs-toggle="pill" data-bs-target="#pills-stats"
+                <button class="nav-link color-red" id="pills-stats-tab" data-bs-toggle="pill" data-bs-target="#pills-stats"
                     type="button" role="tab" aria-controls="pills-stats" aria-selected="false">Stats</button>
             </li>
         </ul>
@@ -132,12 +129,12 @@
                     <div class="col-sm-6">
                         <ul class="d-flex justify-content-center nav nav-pills mb-3" id="pills-tab" role="tablist">
                             <li class="nav-item" role="presentation">
-                                <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill"
+                                <button class="nav-link color-red active" id="pills-home-tab" data-bs-toggle="pill"
                                     data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home"
                                     aria-selected="true">Home</button>
                             </li>
                             <li class="nav-item" role="presentation">
-                                <button class="nav-link" id="pills-away-tab" data-bs-toggle="pill"
+                                <button class="nav-link color-red" id="pills-away-tab" data-bs-toggle="pill"
                                     data-bs-target="#pills-away" type="button" role="tab" aria-controls="pills-away"
                                     aria-selected="false">Away</button>
                             </li>
@@ -183,17 +180,17 @@
             <div class="tab-pane fade" id="pills-stats" role="tabpanel" aria-labelledby="pills-stats-tab">
                 <div class="row justify-content-center">
                     <ul class="d-flex justify-content-center nav nav-pills mb-3" id="pills-tab" role="tablist">
-                        <li class="nav-item" role="presentation">
+                        <li class="nav-item color-red" role="presentation">
                             <button class="nav-link active" id="pills-matchup-tab" data-bs-toggle="pill"
                                 data-bs-target="#pills-matchup" type="button" role="tab" aria-controls="pills-matchup"
                                 aria-selected="true">Matchup</button>
                         </li>
-                        <li class="nav-item" role="presentation">
+                        <li class="nav-item color-red" role="presentation">
                             <button class="nav-link" id="pills-home-stats-tab" data-bs-toggle="pill"
                                 data-bs-target="#pills-homestats" type="button" role="tab"
                                 aria-controls="pills-homestats" aria-selected="false">Home</button>
                         </li>
-                        <li class="nav-item" role="presentation">
+                        <li class="nav-item color-red" role="presentation">
                             <button class="nav-link" id="pills-awaystats-tab" data-bs-toggle="pill"
                                 data-bs-target="#pills-awaystats" type="button" role="tab"
                                 aria-controls="pills-awaystats" aria-selected="false">Away</button>

@@ -29,7 +29,7 @@ logo without text https://i.imgur.com/9R5zbN5.png */
     color: #000000;
 }
 .home_view_game_btn:hover {
-    background-color: #ffffff;
+    background-color: #ffffff !important;
     color: #A05F75 !important;
     border-color: #A05F75 !important;
 }
@@ -41,9 +41,6 @@ logo without text https://i.imgur.com/9R5zbN5.png */
 .remove_fav_btn:hover {
     background-color: #ffffff !important;
     color: #dc3545 !important;
-}
-.fav_team_home:hover {
-    color: #A05F75 !important;
 }
 
 .m-n1 {
@@ -63,8 +60,11 @@ logo without text https://i.imgur.com/9R5zbN5.png */
     color: #A05F75 !important;
 }
 .team_view_game_btn:hover {
-    background-color: #ffffff;
+    background-color: #ffffff !important;
     color: #5FA08A !important;
     border-color: #5FA08A !important;
 }
 
+.hover:hover {
+    color: #A05F75
+}
