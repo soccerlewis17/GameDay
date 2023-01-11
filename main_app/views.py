@@ -7,8 +7,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from datetime import datetime
 from .forms import CommentForm
-
 import requests  # allow us to make api calls
+
 headers = {
     "X-RapidAPI-Key": "a249ee6bfamshfb62e9b1c9d89d2p17b949jsn9d35882504fe",
     "X-RapidAPI-Host": "api-football-v1.p.rapidapi.com"
@@ -31,6 +31,15 @@ def get_games(team, next):
     games = requests.request(
         "GET", url, headers=headers, params=querystring).json()['response']
     return games
+
+def get_last(team, num): 
+    url = "https://api-football-v1.p.rapidapi.com/v3/fixtures"
+    querystring = {"team": team, "last": num}
+    game = requests.request(
+        "GET", url, headers=headers, params=querystring).json()['response'][0]
+    return game
+    
+
 
 
 def fix_timestamp(game):
@@ -100,11 +109,14 @@ def home(request):
 def team_detail(request, team_id):
     team = get_team(team_id)
     upcoming_games = get_games(team_id, 3)
+    last_game = get_last(team_id, 1)
+    fix_timestamp(last_game)
     for game in upcoming_games:
         fix_timestamp(game)
     squad = get_squad(team_id)
     live_game = find_live(team_id)
-    return render(request, 'team.html', {'team': team, 'upcoming': upcoming_games, 'squad': squad, 'live': live_game})
+    favorite = Favorite.objects.filter(user=request.user, team_id=team_id)
+    return render(request, 'team.html', {'team': team, 'upcoming': upcoming_games, 'squad': squad, 'live': live_game, 'last' : last_game, "favorite" : favorite})
 
 
 def game_detail(request, game_id):
