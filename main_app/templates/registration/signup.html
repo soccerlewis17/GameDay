@@ -1,7 +1,9 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<div class="container-fluid text-center">  <h1 class="text-light px-3 background-red">SIGNUP</h1></div>
+<div class="container-fluid text-center">
+    <br>
+    <h1 class="text-light px-3 mb-3 background-red rounded">SIGNUP</h1>
 </div>
 
 {% if error_message %}<p class="red-text">{{ error_message }}</p>{% endif %}
@@ -9,7 +11,7 @@
 <div style="min-height:80vh;" class="ps-2">  <form method="post" action="{% url 'signup' %}">
     {% csrf_token %}
     {{ form.as_p }}
-    <input type="submit" class="btn" value="signup">
+    <input type="submit" class="btn background-red text-light" value="Sign Up">
 </form> </div>
 
 {% endblock %}
