@@ -15,7 +15,6 @@ Users of GameDay have access to all Premier League teams and can engage with oth
     <li><em>As a user, I want to view my favorite team’s information.</em></li>
     <li><em>As a user, I want to view the upcoming matchups for my favorite team(s).</em></li>
     <li><em>As a user, I want to be able to comment on an upcoming matchup.</em></li>
-    <li><em>As a user, I want to be able to delete my request.</em></li>
     <li><em>As a user, I want to be able to delete my comment on an upcoming matchup.</em></li>
 </ul>
 
@@ -61,7 +60,7 @@ Game page below (mobile)
 <img src="https://i.imgur.com/4DmrCcB.png">
 
 Game Page stats below (desktop)
-<img src="https://i.imgur.com/4DmrCcB.png">
+<img src="https://i.imgur.com/LGaHt0a.png">
 
 
 <h3>Getting Started</h3>
