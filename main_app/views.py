@@ -34,7 +34,7 @@ def get_games(team, next):
 
 def get_last(team, num): 
     url = "https://api-football-v1.p.rapidapi.com/v3/fixtures"
-    querystring = {"team": team, "last": num}
+    querystring = {"team": team, "last": num, "status": "FT"}
     game = requests.request(
         "GET", url, headers=headers, params=querystring).json()['response'][0]
     return game
@@ -87,9 +87,16 @@ def get_game_stats(game_id):
         "GET", url, headers=headers, params=querystring).json()['response']
     return live_stats
 
+def get_standings(league_id, season): 
+    url = "https://api-football-v1.p.rapidapi.com/v3/standings"
+    querystring = {"season": season, "league": league_id}
+    standings = requests.request(
+        "GET", url, headers=headers, params=querystring).json()['response'][0]['league']
+    return standings
 
 def home(request):
     teams = get_league(39, 2022)
+    standings = get_standings(39, 2022)
     favorite_ids = []
     favorite_games = []
     if request.user.is_authenticated:
@@ -102,7 +109,7 @@ def home(request):
             game_obj["id"] = favorite.team_id
             game_obj["game"] = game
             favorite_games.append(game_obj)
-    return render(request, 'home.html', {'teams': teams, 'favorites': favorite_ids, 'games': favorite_games})
+    return render(request, 'home.html', {'teams': teams, 'favorites': favorite_ids, 'games': favorite_games, "standings" : standings})
 
 
 @login_required

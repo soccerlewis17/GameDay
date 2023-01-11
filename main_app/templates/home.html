@@ -10,7 +10,7 @@
   <div class="col d-flex flex-row my-2 justify-content-center">
     {% for team in teams %}
     {% if team.team.id in favorites %}
-    <image class="mx-1" style="height:45px" src="{{ team.team.logo }}"></image>
+    <a href=" {% url 'team_detail' team.team.id %} "><image class="mx-2" style="height:45px" src="{{ team.team.logo }}"></image></a>
     {% endif %}
     {% endfor %}
   </div>
@@ -46,30 +46,35 @@
   </div>
 
 <!-- LIVE TABLE IDEA FOR ICEBOX -->
-<!-- Button trigger modal -->
-<!-- <button type="button" class="btn background-green" data-toggle="modal" data-target="#exampleModal">
-    View Live Table
-  </button>
-  
-  Modal
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Live Table</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          Hello
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        </div>
-      </div>
-    </div>
-</div> -->
+<p>
+<button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample"
+  aria-expanded="false" aria-controls="collapseExample">
+  Live Table
+</button>
+</p>
+<div class="collapse" id="collapseExample">
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col"></th>
+        <th scope="col">Team</th>
+        <th scope="col">Points</th>
+        <th scope="col">Form</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for team in standings.standings.0 %}
+      <tr>
+        <th scope="row">{{ team.rank }}</th>
+        <td><image style="height:40px" src="{{ team.team.logo }}"></image>{{ team.team.name }}</td>
+        <td>{{ team.points }}</td>
+        <td>{{ team.form }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
 
 
 <div class="container-fluid text-center"><h2 class="text-light px-3 background-red rounded">Favorite Teams</h2></div>

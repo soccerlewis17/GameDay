@@ -60,7 +60,7 @@ logo without text https://i.imgur.com/9R5zbN5.png */
     color: #A05F75 !important;
 }
 .team_view_game_btn:hover {
-    background-color: #ffffff;
+    background-color: #ffffff !important;
     color: #5FA08A !important;
     border-color: #5FA08A !important;
 }
