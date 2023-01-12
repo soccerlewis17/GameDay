@@ -44,15 +44,55 @@
       </ul>
     </div>
   </div>
+  <div class="col justify-content-center d-flex my-2">
+  <button  type="button" style="min-width:87px;" class="btn btn-primary" id="myInput" data-bs-toggle="modal" data-bs-target="#exampleModal">
+    Live Table
+  </button>
+</div>
 
-<!-- LIVE TABLE IDEA FOR ICEBOX -->
-<p>
-<button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample"
-  aria-expanded="false" aria-controls="collapseExample">
-  Live Table
-</button>
-</p>
-<div class="collapse" id="collapseExample">
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    
+      <table class="table background-grey rounded">
+        <thead>
+          <tr>
+            <th scope="col"></th>
+            <th scope="col">Team</th>
+            <th scope="col">Points</th>
+            <th scope="col">Form</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for team in standings.standings.0 %}
+          <tr class="
+          {% if team.rank == 1 %}
+            table-success
+            {% elif team.rank <= 4 %}
+            table-primary
+            {% elif team.rank >= 17 %}
+            table-danger
+            {% elif team.rank >= 15 %}
+            table-warning
+          {% endif %}  
+          ">
+            <th scope="row">{{ team.rank }}</th>
+            <td>
+              <image class="me-1" style="height:25px" src="{{ team.team.logo }}"></image>{{ team.team.name }}
+            </td>
+            <td>{{ team.points }}</td>
+            <td>{{ team.form }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    
+
+  </div>
+</div>
+
+<div class="row justify-content-center">
+<div class="collapse" style="max-width:700px" id="collapseTable">
   <table class="table">
     <thead>
       <tr>
@@ -66,13 +106,14 @@
       {% for team in standings.standings.0 %}
       <tr>
         <th scope="row">{{ team.rank }}</th>
-        <td><image style="height:40px" src="{{ team.team.logo }}"></image>{{ team.team.name }}</td>
+        <td><image class="me-1"style="height:25px" src="{{ team.team.logo }}"></image>{{ team.team.name }}</td>
         <td>{{ team.points }}</td>
         <td>{{ team.form }}</td>
       </tr>
       {% endfor %}
     </tbody>
   </table>
+</div>
 </div>
 
 
@@ -130,4 +171,12 @@
 </div>
 
 {% endif %}
+<script>
+  const myModal = document.getElementById('exampleModal')
+  const myInput = document.getElementById('myInput')
+
+  myModal.addEventListener('shown.bs.modal', () => {
+    myInput.focus()
+  })
+</script>
 {% endblock content %}
