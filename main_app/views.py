@@ -3,7 +3,6 @@ from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 from .models import Favorite, Comment
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.mixins import LoginRequiredMixin
 from datetime import datetime
 from .forms import CommentForm
 import requests
@@ -121,6 +120,7 @@ def team_detail(request, team_id):
     return render(request, 'team.html', {'team': team, 'upcoming': upcoming_games, 'squad': squad, 'live': live_game, 'last' : last_game, "favorite" : favorite})
 
 
+@login_required
 def game_detail(request, game_id):
     game = get_game_info(game_id)
     fix_timestamp(game)
