@@ -2,19 +2,16 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 from .models import Favorite, Comment
-from django.views.generic.edit import DeleteView
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from datetime import datetime
 from .forms import CommentForm
-import requests  # allow us to make api calls
+import requests
 
 headers = {
     "X-RapidAPI-Key": "a249ee6bfamshfb62e9b1c9d89d2p17b949jsn9d35882504fe",
     "X-RapidAPI-Host": "api-football-v1.p.rapidapi.com"
 }
-# Create your views here.
-# api call functions
 
 
 def get_league(id, season):
@@ -39,8 +36,6 @@ def get_last(team, num):
         "GET", url, headers=headers, params=querystring).json()['response'][0]
     return game
     
-
-
 
 def fix_timestamp(game):
     game['fixture']['timestamp'] = datetime.fromtimestamp(
