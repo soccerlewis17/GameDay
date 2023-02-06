@@ -7,8 +7,6 @@
 GameDay uses live data to show you the latest on your favorite team including upcoming games, live games, previous games, rosters, team information, and more.
 Users of GameDay have access to all Premier League teams and can engage with other fans online as they follow along.
 
-<h3>Planning</h3>
-
 <h5>User Stories</h5>
 <ul>
     <li><em>As a user, I want to select favorite teams to follow them.</em></li>
@@ -17,23 +15,6 @@ Users of GameDay have access to all Premier League teams and can engage with oth
     <li><em>As a user, I want to be able to comment on an upcoming matchup.</em></li>
     <li><em>As a user, I want to be able to delete my comment on an upcoming matchup.</em></li>
 </ul>
-
-<h5>Wireframe</h5>
-
-Home page below
-<img src="https://i.imgur.com/tPXhFGM.png">
-
-Team page below
-<img src="https://i.imgur.com/gvlEsTJ.png">
-
-Game page below
-<img src="https://i.imgur.com/f4w2jJW.png">
-
-
-<h5>Entity-Relationship-Diagram (ERD) Diagram</h5>
-
-<img src="https://i.imgur.com/a58Ygzt.png">
-
 
 <h3>Technologies Used</h3>
 <ul>
@@ -65,7 +46,7 @@ Game Page stats below (desktop)
 
 <h3>Getting Started</h3>
 
-View <strong><em>GameDay</em></strong> here: (link coming soon)
+View <strong><em>GameDay</em></strong> here: https://muddy-pond-7499.fly.dev/
 
 View Trello project board for planning here: https://trello.com/b/bJN3h2y4/gameday
 

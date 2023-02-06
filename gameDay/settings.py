@@ -11,21 +11,51 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
+# import these 
+import dj_database_url
+import environ
+import os
+
+# this sets all our environment variables to there required
+# values in production if an enivronment variable 
+# is absent, so False, True, True respectively
+env = environ.Env(
+    # set casting, default value
+    DEBUG=(bool, False),
+    CSRF_COOKIE_SECURE=(bool, True),
+    SESSION_COOKIE_SECURE=(bool, True),   
+)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
+
+# Quick-start development settings - unsuitable for production
+# See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
+
+# SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = env('DJANGO_SECRET_KEY')
+
+
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = env('DEBUG')
+CSRF_COOKIE_SECURE = env('CSRF_COOKIE_SECURE')
+SESSION_COOKIE_SECURE = env('SESSION_COOKIE_SECURE')
+
+# ALLOWED_HOSTS = ['red-firefly-384.fly.dev', 'localhost']
+# CSRF_TRUSTED_ORIGINS = ['https://red-firefly-384.fly.dev']
+ALLOWED_HOSTS = ['muddy-pond-7499.fly.dev', 'localhost']
+CSRF_TRUSTED_ORIGINS = ['https://muddy-pond-7499.fly.dev']
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-)+-&6qr4@2sunb0p1u(h6y(a$935z@)ca!i!eo6*i@q53r5df2'
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
 
-ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -74,11 +104,16 @@ WSGI_APPLICATION = 'gameDay.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'gameday',
+#     }
+# }
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'gameday',
-    }
+    "default": dj_database_url.config(
+        default="sqlite:///" + os.path.join(BASE_DIR, "db.sqlite3")
+    )
 }
 
 
@@ -116,7 +151,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = "static/"
+STATIC_ROOT = "static"
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 

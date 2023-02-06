@@ -11,6 +11,9 @@ RUN poetry install --no-root
 
 COPY . .
 
+COPY ./pyproject.toml ./poetry.lock*  ./
+RUN poetry export -f requirements.txt --output requirements.txt && pip install --no-cache-dir -r requirements.txt
+
 ENV DJANGO_SETTINGS_MODULE "gameDay.settings"
 ENV DJANGO_SECRET_KEY "this is a secret key for building purposes"
 
